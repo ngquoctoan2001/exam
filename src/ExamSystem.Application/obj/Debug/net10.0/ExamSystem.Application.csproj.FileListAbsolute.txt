@@ -1,0 +1,15 @@
+C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.csproj.AssemblyReference.cache
+C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.AssemblyInfoInputs.cache
+C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.AssemblyInfo.cs
+C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.csproj.CoreCompileInputs.cache
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\bin\Debug\net10.0\ExamSystem.Application.deps.json
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\bin\Debug\net10.0\ExamSystem.Application.dll
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\bin\Debug\net10.0\ExamSystem.Application.pdb
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\bin\Debug\net10.0\ExamSystem.Domain.dll
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\bin\Debug\net10.0\ExamSystem.Domain.pdb
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSyst.09C38276.Up2Date
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.dll
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\refint\ExamSystem.Application.dll
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ExamSystem.Application.pdb
+c:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Application\obj\Debug\net10.0\ref\ExamSystem.Application.dll

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ExamSystem.API/ExamSystem.API.csproj" />
+  <Project Path="ExamSystem.Application/ExamSystem.Application.csproj" />
+  <Project Path="ExamSystem.Domain/ExamSystem.Domain.csproj" />
+  <Project Path="ExamSystem.Infrastructure/ExamSystem.Infrastructure.csproj" />
+</Solution>

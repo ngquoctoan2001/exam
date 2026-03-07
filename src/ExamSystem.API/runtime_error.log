@@ -1,0 +1,140 @@
+Using launch settings from c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Properties\launchSettings.json...
+Building...
+Unhandled exception. System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.ISchoolService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.SchoolService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SchoolService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.ISubjectService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.SubjectService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SubjectService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IClassService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ClassService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ClassService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IAuthService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.AuthService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.AuthService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IReportService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ReportService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ReportService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IQuestionService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.QuestionService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.QuestionService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IExamService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ExamService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ExamService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IExamAttemptService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ExamAttemptService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ExamAttemptService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IGradingService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.GradingService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.GradingService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.INotificationService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.NotificationService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.NotificationService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IActivityLogService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ActivityLogService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ActivityLogService'.) (Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.ISystemSettingsService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.SystemSettingsService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SystemSettingsService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.ISchoolService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.SchoolService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SchoolService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SchoolService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 37
+ ---> (Inner Exception #1) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.ISubjectService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.SubjectService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SubjectService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SubjectService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #2) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IClassService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ClassService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ClassService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ClassService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #3) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IAuthService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.AuthService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.AuthService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.AuthService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #4) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IReportService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ReportService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ReportService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ReportService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #5) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IQuestionService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.QuestionService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.QuestionService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.QuestionService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #6) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IExamService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ExamService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ExamService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ExamService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #7) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IExamAttemptService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ExamAttemptService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ExamAttemptService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ExamAttemptService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #8) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IGradingService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.GradingService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.GradingService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.GradingService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #9) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.INotificationService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.NotificationService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.NotificationService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.NotificationService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #10) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.IActivityLogService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.ActivityLogService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ActivityLogService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.ActivityLogService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #11) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: ExamSystem.Application.Interfaces.ISystemSettingsService Lifetime: Scoped ImplementationType: ExamSystem.Application.Services.SystemSettingsService': Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SystemSettingsService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'ExamSystem.Application.Interfaces.IApplicationDbContext' while attempting to activate 'ExamSystem.Application.Services.SystemSettingsService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)<---
+

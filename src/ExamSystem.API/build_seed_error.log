@@ -1,0 +1,16 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  ExamSystem.Domain -> c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Domain\bin\Debug\net10.0\ExamSystem.Domain.dll
+  ExamSystem.Application -> c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\bin\Debug\net10.0\ExamSystem.Application.dll
+  ExamSystem.Infrastructure -> c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Infrastructure\bin\Debug\net10.0\ExamSystem.Infrastructure.dll
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs(35,18): error CS1061: 'IServiceCollection' does not contain a definition for 'AddApplication' and no accessible extension method 'AddApplication' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\ExamSystem.API.csproj]
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs(36,18): error CS1061: 'IServiceCollection' does not contain a definition for 'AddInfrastructure' and no accessible extension method 'AddInfrastructure' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\ExamSystem.API.csproj]
+
+Build FAILED.
+
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs(35,18): error CS1061: 'IServiceCollection' does not contain a definition for 'AddApplication' and no accessible extension method 'AddApplication' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\ExamSystem.API.csproj]
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs(36,18): error CS1061: 'IServiceCollection' does not contain a definition for 'AddInfrastructure' and no accessible extension method 'AddInfrastructure' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\ExamSystem.API.csproj]
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:01.37
