@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj": {}
+    "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj": {}
   },
   "projects": {
-    "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj": {
+    "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj",
         "projectName": "ExamSystem.Domain",
-        "projectPath": "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj",
+        "projectPath": "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\obj\\",
+        "outputPath": "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config"

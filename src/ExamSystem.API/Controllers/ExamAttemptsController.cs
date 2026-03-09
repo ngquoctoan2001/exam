@@ -1,10 +1,15 @@
 using ExamSystem.Application.DTOs;
 using ExamSystem.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ExamSystem.API.Controllers;
 
-public class ExamAttemptsController : BaseApiController
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
+public class ExamAttemptsController : ControllerBase
 {
     private readonly IExamAttemptService _attemptService;
 
@@ -14,32 +19,32 @@ public class ExamAttemptsController : BaseApiController
     }
 
     [HttpPost("start/{examId}")]
-    public async Task<ActionResult<ExamAttemptDto>> Start(long examId)
+    public async Task<ActionResult<ExamAttemptDto>> StartAttempt(long examId)
     {
-        // TODO: Get current student ID from Auth context
-        long studentId = 1; // Demo
-        return Ok(await _attemptService.StartAttemptAsync(examId, studentId));
+        var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var attempt = await _attemptService.StartAttemptAsync(examId, userId);
+        return Ok(attempt);
     }
 
-    [HttpPost("{id}/save")]
-    public async Task<IActionResult> SaveAnswer(long id, SaveAnswerDto dto)
+    [HttpPost("save-answer/{attemptId}")]
+    public async Task<IActionResult> SaveAnswer(long attemptId, SaveAnswerDto dto)
     {
-        await _attemptService.SaveAnswerAsync(id, dto);
-        return NoContent();
+        await _attemptService.SaveAnswerAsync(attemptId, dto);
+        return Ok();
     }
 
-    [HttpPost("{id}/submit")]
-    public async Task<IActionResult> Submit(long id)
+    [HttpPost("submit/{attemptId}")]
+    public async Task<IActionResult> SubmitAttempt(long attemptId)
     {
-        await _attemptService.SubmitAttemptAsync(id);
-        return NoContent();
+        await _attemptService.SubmitAttemptAsync(attemptId);
+        return Ok();
     }
 
     [HttpGet("current/{examId}")]
-    public async Task<ActionResult<ExamAttemptDto>> GetCurrent(long examId)
+    public async Task<ActionResult<ExamAttemptDto>> GetCurrentAttempt(long examId)
     {
-        long studentId = 1; // Demo
-        var attempt = await _attemptService.GetCurrentAttemptAsync(examId, studentId);
+        var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var attempt = await _attemptService.GetCurrentAttemptAsync(examId, userId);
         if (attempt == null) return NotFound();
         return Ok(attempt);
     }

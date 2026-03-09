@@ -4,6 +4,7 @@ public class QuestionType
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty; // MCQ, TrueFalse, ShortAnswer, Essay, Drawing
+    public string Code { get; set; } = string.Empty;
 }
 
 public class Question
@@ -13,7 +14,7 @@ public class Question
     public long SubjectId { get; set; }
     public string Content { get; set; } = string.Empty;
     public int DifficultyLevel { get; set; }
-    public long CreatedBy { get; set; } // TeacherId
+    public long TeacherId { get; set; }
 
     public virtual QuestionType QuestionType { get; set; } = null!;
     public virtual Subject Subject { get; set; } = null!;

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EnWoQyKAvak=",
+  "dgSpecHash": "shaTOk5pEng=",
   "success": true,
-  "projectFilePath": "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj",
+  "projectFilePath": "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Domain\\ExamSystem.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\10.0.3\\microsoft.aspnetcore.cryptography.internal.10.0.3.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\10.0.3\\microsoft.aspnetcore.cryptography.keyderivation.10.0.3.nupkg.sha512",

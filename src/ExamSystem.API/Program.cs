@@ -63,12 +63,27 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred during seeding.");
+        Console.Error.WriteLine("!!!!!!!! SEEDING CRASHED !!!!!!!");
+        Console.Error.WriteLine(ex.ToString());
+        throw; // Force application crash to see stack trace
     }
 }
 
 // Configure the HTTP request pipeline.
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Unhandled exception occurred.");
+        throw;
+    }
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -12,9 +12,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName))
             .ForMember(dest => dest.Role, opt => opt.Ignore());
 
-        CreateMap<School, SchoolDto>().ReverseMap();
-        CreateMap<CreateSchoolDto, School>();
-
         CreateMap<Subject, SubjectDto>().ReverseMap();
         CreateMap<CreateSubjectDto, Subject>();
 
@@ -56,5 +53,13 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.Question.Options));
 
         CreateMap<QuestionOption, ExamQuestionOptionDto>();
+
+        CreateMap<ExamResult, ExamResultDto>()
+            .ForMember(dest => dest.ExamTitle, opt => opt.MapFrom(src => src.Attempt.Exam.Title))
+            .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Attempt.Student.FullName))
+            .ForMember(dest => dest.Score, opt => opt.MapFrom(src => src.TotalScore));
+
+        CreateMap<GradingResult, QuestionGradeDto>()
+            .ForMember(dest => dest.QuestionContent, opt => opt.MapFrom(src => src.Question.Content));
     }
 }

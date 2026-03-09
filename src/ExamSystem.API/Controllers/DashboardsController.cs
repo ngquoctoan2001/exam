@@ -18,7 +18,6 @@ public class DashboardsController : BaseApiController
     {
         var stats = new
         {
-            TotalSchools = await _context.Schools.CountAsync(),
             TotalTeachers = await _context.Teachers.CountAsync(),
             TotalStudents = await _context.Students.CountAsync(),
             TotalExams = await _context.Exams.CountAsync(),
@@ -31,7 +30,7 @@ public class DashboardsController : BaseApiController
     public async Task<ActionResult> GetRecentActivities()
     {
         var logs = await _context.ActivityLogs
-            .OrderByDescending(l => l.CreatedAt)
+            .OrderByDescending(l => l.Timestamp)
             .Take(10)
             .ToListAsync();
         return Ok(logs);

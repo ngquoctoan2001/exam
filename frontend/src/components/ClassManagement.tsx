@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Search, Filter, MoreHorizontal, Users as UsersIcon } from 'lucide-react';
+import api from '../services/api';
 
 const ClassManagement: React.FC = () => {
+    const [classes, setClasses] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const classes = [
-        { id: 1, name: '10A1', grade: 10, teacher: 'Nguyễn Văn A', students: 42 },
-        { id: 2, name: '10A2', grade: 10, teacher: 'Trần Thị B', students: 40 },
-        { id: 3, name: '11A1', grade: 11, teacher: 'Lê Văn C', students: 38 },
-        { id: 4, name: '12C3', grade: 12, teacher: 'Phạm Minh D', students: 45 },
-    ];
+    useEffect(() => {
+        const fetchClasses = async () => {
+            try {
+                const response = await api.get('/classes');
+                setClasses(response.data);
+            } catch (error) {
+                console.error("Failed to fetch classes", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchClasses();
+    }, []);
+
+    const filteredClasses = classes.filter(cls =>
+        cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (cls.homeroomTeacherName && cls.homeroomTeacherName.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
     return (
         <div className="space-y-6">
@@ -31,15 +46,11 @@ const ClassManagement: React.FC = () => {
                         <input
                             type="text"
                             placeholder="Tìm kiếm lớp, giáo viên..."
-                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border-none focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-100 outline-none transition-all"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-xl border border-slate-200 transition-all w-full sm:w-auto justify-center">
-                        <Filter size={18} />
-                        Bộ lọc
-                    </button>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -49,16 +60,23 @@ const ClassManagement: React.FC = () => {
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Tên lớp</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Khối</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Giáo viên chủ nhiệm</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center">Sĩ số</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                            {classes.map((cls) => (
-                                <tr key={cls.id} className="hover:bg-blue-50/30 transition-colors">
+                            {loading ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-10 text-center text-slate-400">Đang tải dữ liệu...</td>
+                                </tr>
+                            ) : filteredClasses.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-10 text-center text-slate-400">Không tìm thấy lớp nào.</td>
+                                </tr>
+                            ) : filteredClasses.map((cls) => (
+                                <tr key={cls.id} className="hover:bg-blue-50/30 transition-colors group">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">
                                                 <UsersIcon size={20} />
                                             </div>
                                             <span className="font-bold text-slate-900">{cls.name}</span>
@@ -70,30 +88,19 @@ const ClassManagement: React.FC = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-slate-600 font-medium">
-                                        {cls.teacher}
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <span className="text-slate-900 font-bold">{cls.students}</span>
-                                        <span className="text-slate-400 text-xs ml-1">h/s</span>
+                                        {cls.homeroomTeacherName || 'Chưa gán'}
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
-                                            <MoreHorizontal size={20} />
-                                        </button>
+                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                                <MoreHorizontal size={20} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                </div>
-
-                <div className="p-6 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
-                    <p className="text-sm text-slate-500">Hiển thị 1 - 4 trên 4 kết quả</p>
-                    <div className="flex gap-2">
-                        <button className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-sm disabled:opacity-50">Trước</button>
-                        <button className="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm shadow-sm">1</button>
-                        <button className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-sm disabled:opacity-50">Sau</button>
-                    </div>
                 </div>
             </div>
         </div>

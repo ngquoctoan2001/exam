@@ -1,0 +1,1150 @@
+Using launch settings from src\ExamSystem.API\Properties\launchSettings.json...
+Building...
+DEBUG: DB Seeding started...
+warn: Microsoft.EntityFrameworkCore.Model.Validation[10625]
+      The foreign key property 'ExamStatistic.ExamId1' was created in shadow state because a conflicting property with the simple name 'ExamId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (27ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE WHEN COUNT(*) = 0 THEN FALSE ELSE TRUE END
+FROM pg_class AS cls
+JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+WHERE
+        cls.relkind IN ('r', 'v', 'm', 'f', 'p') AND
+        ns.nspname NOT IN ('pg_catalog', 'information_schema') AND
+        -- Exclude tables which are members of PG extensions
+        NOT EXISTS (
+            SELECT 1 FROM pg_depend WHERE
+                classid=(
+                    SELECT cls.oid
+                    FROM pg_class AS cls
+                             JOIN pg_namespace AS ns ON ns.oid = cls.relnamespace
+                    WHERE relname='pg_class' AND ns.nspname='pg_catalog'
+                ) AND
+                objid=cls.oid AND
+                deptype IN ('e', 'x')
+        )
+DEBUG: Database created/verified.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+      FROM "AspNetRoles" AS a
+      WHERE a."NormalizedName" = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+      FROM "AspNetRoles" AS a
+      WHERE a."NormalizedName" = @normalizedName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."ConcurrencyStamp", a."Name", a."NormalizedName"
+      FROM "AspNetRoles" AS a
+      WHERE a."NormalizedName" = @normalizedName
+      LIMIT 1
+DEBUG: Roles seeded.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?', @p9='?', @p10='?', @p11='?', @p12='?', @p13='?', @p14='?', @p15='?', @p16='?', @p17='?', @p18='?', @p19='?', @p20='?', @p21='?', @p22='?', @p23='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p0, @p1, @p2)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p3, @p4, @p5)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p6, @p7, @p8)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p9, @p10, @p11)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p12, @p13, @p14)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p15, @p16, @p17)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p18, @p19, @p20)
+      RETURNING "Id";
+      INSERT INTO "Subjects" ("Code", "Description", "Name")
+      VALUES (@p21, @p22, @p23)
+      RETURNING "Id";
+DEBUG: Subjects seeded.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Classes" AS c)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+DEBUG: Admin user seeded.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+      WHERE s."Code" = 'MATH'
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+      WHERE s."Code" = 'PHYS'
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId"
+      FROM "Teachers" AS t
+      WHERE t."UserId" = @user_Id
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId"
+      FROM "Teachers" AS t
+      WHERE t."UserId" = @user_Id
+      LIMIT 1
+DEBUG: Teachers seeded.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Classes" AS c
+      WHERE c."Name" = '10A1'
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Students" AS s
+      WHERE s."UserId" = @user_Id
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Students" AS s
+      WHERE s."UserId" = @user_Id
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Students" AS s
+      WHERE s."UserId" = @user_Id
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Students" AS s
+      WHERE s."UserId" = @user_Id
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@normalizedEmail='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedEmail" = @normalizedEmail
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@user_Id='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Students" AS s
+      WHERE s."UserId" = @user_Id
+      LIMIT 1
+DEBUG: Students seeded.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "QuestionTypes" AS q)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Questions" AS q)
+DEBUG: DB Seeding finished successfully.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5014
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedUserName" = @normalizedUserName
+      LIMIT 1
+fail: Program[0]
+      Unhandled exception occurred.
+      System.UnauthorizedAccessException: T├¬n ─æ─âng nhß║¡p hoß║╖c mß║¡t khß║⌐u kh├┤ng ch├¡nh x├íc.
+         at ExamSystem.Application.Services.AuthService.LoginAsync(LoginDto dto) in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\AuthService.cs:line 35
+         at ExamSystem.API.Controllers.AuthController.Login(LoginDto dto) in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\AuthController.cs:line 21
+         at lambda_method587(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.UnauthorizedAccessException: T├¬n ─æ─âng nhß║¡p hoß║╖c mß║¡t khß║⌐u kh├┤ng ch├¡nh x├íc.
+         at ExamSystem.Application.Services.AuthService.LoginAsync(LoginDto dto) in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\AuthService.cs:line 35
+         at ExamSystem.API.Controllers.AuthController.Login(LoginDto dto) in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\AuthController.cs:line 21
+         at lambda_method587(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@normalizedUserName='?'], CommandType='Text', CommandTimeout='30']
+      SELECT a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName"
+      FROM "AspNetUsers" AS a
+      WHERE a."NormalizedUserName" = @normalizedUserName
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+      SELECT a0."Name"
+      FROM "AspNetUserRoles" AS a
+      INNER JOIN "AspNetRoles" AS a0 ON a."RoleId" = a0."Id"
+      WHERE a."UserId" = @userId
+fail: Program[0]
+      Unhandled exception occurred.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Program[0]
+      Unhandled exception occurred.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Students" AS s
+      INNER JOIN "AspNetUsers" AS a ON s."UserId" = a."Id"
+      LEFT JOIN "Classes" AS c ON s."ClassId" = c."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Students" AS s
+      INNER JOIN "AspNetUsers" AS a ON s."UserId" = a."Id"
+      LEFT JOIN "Classes" AS c ON s."ClassId" = c."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", s."Id", s."Code", s."Description", s."Name"
+      FROM "Teachers" AS t
+      INNER JOIN "AspNetUsers" AS a ON t."UserId" = a."Id"
+      INNER JOIN "Subjects" AS s ON t."SubjectId" = s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", s."Id", s."Code", s."Description", s."Name"
+      FROM "Teachers" AS t
+      INNER JOIN "AspNetUsers" AS a ON t."UserId" = a."Id"
+      INNER JOIN "Subjects" AS s ON t."SubjectId" = s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Students" AS s
+      INNER JOIN "AspNetUsers" AS a ON s."UserId" = a."Id"
+      LEFT JOIN "Classes" AS c ON s."ClassId" = c."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Students" AS s
+      INNER JOIN "AspNetUsers" AS a ON s."UserId" = a."Id"
+      LEFT JOIN "Classes" AS c ON s."ClassId" = c."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Code", q."Name"
+      FROM "QuestionTypes" AS q
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Code", q."Name"
+      FROM "QuestionTypes" AS q
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Content", q."DifficultyLevel", q."QuestionTypeId", q."SubjectId", q."TeacherId", q0."Id", q0."Code", q0."Name", s."Id", s."Code", s."Description", s."Name", q1."Id", q1."Content", q1."IsCorrect", q1."OptionLabel", q1."QuestionId"
+      FROM "Questions" AS q
+      INNER JOIN "QuestionTypes" AS q0 ON q."QuestionTypeId" = q0."Id"
+      INNER JOIN "Subjects" AS s ON q."SubjectId" = s."Id"
+      LEFT JOIN "QuestionOptions" AS q1 ON q."Id" = q1."QuestionId"
+      ORDER BY q."Id", q0."Id", s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Content", q."DifficultyLevel", q."QuestionTypeId", q."SubjectId", q."TeacherId", q0."Id", q0."Code", q0."Name", s."Id", s."Code", s."Description", s."Name", q1."Id", q1."Content", q1."IsCorrect", q1."OptionLabel", q1."QuestionId"
+      FROM "Questions" AS q
+      INNER JOIN "QuestionTypes" AS q0 ON q."QuestionTypeId" = q0."Id"
+      INNER JOIN "Subjects" AS s ON q."SubjectId" = s."Id"
+      LEFT JOIN "QuestionOptions" AS q1 ON q."Id" = q1."QuestionId"
+      ORDER BY q."Id", q0."Id", s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT e."Id", e."CreatedAt", e."DurationMinutes", e."EndTime", e."StartTime", e."Status", e."SubjectId", e."TeacherId", e."Title", s."Id", s."Code", s."Description", s."Name", t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", e0."ExamId", e0."AllowReview", e0."ShowResultImmediately", e0."ShuffleAnswers", e0."ShuffleQuestions"
+      FROM "Exams" AS e
+      INNER JOIN "Subjects" AS s ON e."SubjectId" = s."Id"
+      INNER JOIN "Teachers" AS t ON e."TeacherId" = t."Id"
+      LEFT JOIN "ExamSettings" AS e0 ON e."Id" = e0."ExamId"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT e."Id", e."CreatedAt", e."DurationMinutes", e."EndTime", e."StartTime", e."Status", e."SubjectId", e."TeacherId", e."Title", s."Id", s."Code", s."Description", s."Name", t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", e0."ExamId", e0."AllowReview", e0."ShowResultImmediately", e0."ShuffleAnswers", e0."ShuffleQuestions"
+      FROM "Exams" AS e
+      INNER JOIN "Subjects" AS s ON e."SubjectId" = s."Id"
+      INNER JOIN "Teachers" AS t ON e."TeacherId" = t."Id"
+      LEFT JOIN "ExamSettings" AS e0 ON e."Id" = e0."ExamId"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Content", q."DifficultyLevel", q."QuestionTypeId", q."SubjectId", q."TeacherId", q0."Id", q0."Code", q0."Name", s."Id", s."Code", s."Description", s."Name", q1."Id", q1."Content", q1."IsCorrect", q1."OptionLabel", q1."QuestionId"
+      FROM "Questions" AS q
+      INNER JOIN "QuestionTypes" AS q0 ON q."QuestionTypeId" = q0."Id"
+      INNER JOIN "Subjects" AS s ON q."SubjectId" = s."Id"
+      LEFT JOIN "QuestionOptions" AS q1 ON q."Id" = q1."QuestionId"
+      ORDER BY q."Id", q0."Id", s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Code", q."Name"
+      FROM "QuestionTypes" AS q
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Code", q."Name"
+      FROM "QuestionTypes" AS q
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."Code", s."Description", s."Name"
+      FROM "Subjects" AS s
+DEBUG: Fetched 32 subjects from DB.
+DEBUG: Mapped to 32 DTOs.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT q."Id", q."Content", q."DifficultyLevel", q."QuestionTypeId", q."SubjectId", q."TeacherId", q0."Id", q0."Code", q0."Name", s."Id", s."Code", s."Description", s."Name", q1."Id", q1."Content", q1."IsCorrect", q1."OptionLabel", q1."QuestionId"
+      FROM "Questions" AS q
+      INNER JOIN "QuestionTypes" AS q0 ON q."QuestionTypeId" = q0."Id"
+      INNER JOIN "Subjects" AS s ON q."SubjectId" = s."Id"
+      LEFT JOIN "QuestionOptions" AS q1 ON q."Id" = q1."QuestionId"
+      ORDER BY q."Id", q0."Id", s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT e."Id", e."CreatedAt", e."DurationMinutes", e."EndTime", e."StartTime", e."Status", e."SubjectId", e."TeacherId", e."Title", s."Id", s."Code", s."Description", s."Name", t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", e0."ExamId", e0."AllowReview", e0."ShowResultImmediately", e0."ShuffleAnswers", e0."ShuffleQuestions"
+      FROM "Exams" AS e
+      INNER JOIN "Subjects" AS s ON e."SubjectId" = s."Id"
+      INNER JOIN "Teachers" AS t ON e."TeacherId" = t."Id"
+      LEFT JOIN "ExamSettings" AS e0 ON e."Id" = e0."ExamId"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT e."Id", e."CreatedAt", e."DurationMinutes", e."EndTime", e."StartTime", e."Status", e."SubjectId", e."TeacherId", e."Title", s."Id", s."Code", s."Description", s."Name", t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", e0."ExamId", e0."AllowReview", e0."ShowResultImmediately", e0."ShuffleAnswers", e0."ShuffleQuestions"
+      FROM "Exams" AS e
+      INNER JOIN "Subjects" AS s ON e."SubjectId" = s."Id"
+      INNER JOIN "Teachers" AS t ON e."TeacherId" = t."Id"
+      LEFT JOIN "ExamSettings" AS e0 ON e."Id" = e0."ExamId"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", s."Id", s."Code", s."Description", s."Name"
+      FROM "Teachers" AS t
+      INNER JOIN "AspNetUsers" AS a ON t."UserId" = a."Id"
+      INNER JOIN "Subjects" AS s ON t."SubjectId" = s."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT t."Id", t."FullName", t."Position", t."SubjectId", t."TeacherCode", t."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", s."Id", s."Code", s."Description", s."Name"
+      FROM "Teachers" AS t
+      INNER JOIN "AspNetUsers" AS a ON t."UserId" = a."Id"
+      INNER JOIN "Subjects" AS s ON t."SubjectId" = s."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Program[0]
+      Unhandled exception occurred.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ArgumentNullException: Value cannot be null. (Parameter 's')
+         at System.Int64.Parse(String s)
+         at ExamSystem.API.Controllers.ReportsController.GetDashboardStats() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ReportsController.cs:line 40
+         at lambda_method610(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Students" AS s
+      INNER JOIN "AspNetUsers" AS a ON s."UserId" = a."Id"
+      LEFT JOIN "Classes" AS c ON s."ClassId" = c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId", a."Id", a."AccessFailedCount", a."ConcurrencyStamp", a."CreatedAt", a."Email", a."EmailConfirmed", a."FullName", a."IsActive", a."LockoutEnabled", a."LockoutEnd", a."NormalizedEmail", a."NormalizedUserName", a."PasswordHash", a."PhoneNumber", a."PhoneNumberConfirmed", a."Role", a."SecurityStamp", a."TwoFactorEnabled", a."UserName", c."Id", c."Grade", c."HomeroomTeacherId", c."Name"
+      FROM "Students" AS s
+      INNER JOIN "AspNetUsers" AS a ON s."UserId" = a."Id"
+      LEFT JOIN "Classes" AS c ON s."ClassId" = c."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT c."Id", c."Grade", c."HomeroomTeacherId", c."Name", s."Id", s."ClassId", s."FullName", s."StudentCode", s."UserId"
+      FROM "Classes" AS c
+      LEFT JOIN "Students" AS s ON c."Id" = s."ClassId"
+      ORDER BY c."Id"
+fail: Program[0]
+      Unhandled exception occurred.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      AutoMapper.AutoMapperMappingException: Error mapping types.
+      
+      Mapping types:
+      List`1 -> IEnumerable`1
+      System.Collections.Generic.List`1[[ExamSystem.Domain.Entities.Class, ExamSystem.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[ExamSystem.Application.DTOs.ClassDto, ExamSystem.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+       ---> System.ArgumentException: ExamSystem.Application.DTOs.ClassDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         --- End of inner exception stack trace ---
+         at lambda_method700(Closure, Object, IEnumerable`1, ResolutionContext)
+         at ExamSystem.Application.Services.ClassService.GetAllAsync() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs:line 25
+         at ExamSystem.API.Controllers.ClassesController.GetAll() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Controllers\ClassesController.cs:line 19
+         at lambda_method621(Closure, Object)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in C:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.API\Program.cs:line 77
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)

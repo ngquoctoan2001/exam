@@ -6,7 +6,7 @@ public interface IGradingService
 {
     Task AutoGradeAttemptAsync(long attemptId);
     Task ManualGradeQuestionAsync(ManualGradingDto dto);
-    Task<ExamResultDto> GetExamResultAsync(long attemptId);
+    Task<DetailedExamResultDto> GetDetailedExamResultAsync(long attemptId);
     Task<IEnumerable<QuestionGradeDto>> GetQuestionsForGradingAsync(long examId);
     Task<IEnumerable<ExamResultDto>> SearchExamResultsAsync(long examId, decimal? minScore, decimal? maxScore);
 }

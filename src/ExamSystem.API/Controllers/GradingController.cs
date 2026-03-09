@@ -28,9 +28,9 @@ public class GradingController : BaseApiController
     }
 
     [HttpGet("result/{attemptId}")]
-    public async Task<ActionResult<ExamResultDto>> GetResult(long attemptId)
+    public async Task<ActionResult<DetailedExamResultDto>> GetResult(long attemptId)
     {
-        return Ok(await _gradingService.GetExamResultAsync(attemptId));
+        return Ok(await _gradingService.GetDetailedExamResultAsync(attemptId));
     }
 
     [HttpGet("exam/{examId}/questions-for-grading")]

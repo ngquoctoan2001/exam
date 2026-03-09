@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import {
     LayoutDashboard,
-    School,
     BookOpen,
     Users,
     GraduationCap,
@@ -15,6 +14,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NotificationCenter from './NotificationCenter';
+import { useNavigate } from 'react-router-dom';
+import { authService } from '../services/auth.service';
 
 const SidebarItem = ({ to, icon: Icon, label }: { to: string; icon: any; label: string }) => (
     <NavLink
@@ -32,7 +33,13 @@ const SidebarItem = ({ to, icon: Icon, label }: { to: string; icon: any; label: 
 );
 
 const Layout: React.FC = () => {
+    const navigate = useNavigate();
     const [showNotifications, setShowNotifications] = useState(false);
+
+    const handleLogout = () => {
+        authService.logout();
+        navigate('/login');
+    };
 
     return (
         <div className="flex min-h-screen bg-slate-50">
@@ -48,7 +55,6 @@ const Layout: React.FC = () => {
                 <nav className="flex-1 space-y-1">
                     <SidebarItem to="/admin/dashboard" icon={LayoutDashboard} label="Tổng quan" />
                     <div className="py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider ml-4">Quản lý</div>
-                    <SidebarItem to="/admin/schools" icon={School} label="Trường học" />
                     <SidebarItem to="/admin/subjects" icon={BookOpen} label="Môn học" />
                     <SidebarItem to="/admin/classes" icon={Users} label="Lớp học" />
                     <SidebarItem to="/admin/teachers" icon={ClipboardList} label="Giáo viên" />
@@ -62,7 +68,10 @@ const Layout: React.FC = () => {
 
                 <div className="border-t border-slate-100 pt-6 space-y-1">
                     <SidebarItem to="/admin/settings" icon={Settings} label="Cài đặt" />
-                    <button className="w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all">
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all"
+                    >
                         <LogOut size={20} />
                         <span className="font-medium">Đăng xuất</span>
                     </button>

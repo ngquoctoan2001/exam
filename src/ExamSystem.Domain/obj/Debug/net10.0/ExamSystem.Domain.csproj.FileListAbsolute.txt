@@ -6,6 +6,7 @@ C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\
 C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\ExamSystem.Domain.AssemblyInfoInputs.cache
 C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\ExamSystem.Domain.AssemblyInfo.cs
 C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\ExamSystem.Domain.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\ExamSystem.Domain.sourcelink.json
 C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\ExamSystem.Domain.dll
 C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\refint\ExamSystem.Domain.dll
 C:\Users\ADMIN\OneDrive\Máy tính\exam\src\ExamSystem.Domain\obj\Debug\net10.0\ExamSystem.Domain.pdb

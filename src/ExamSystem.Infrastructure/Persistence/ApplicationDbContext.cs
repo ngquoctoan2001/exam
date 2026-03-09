@@ -11,7 +11,6 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, long, Identity
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     // 2. School Structure
-    public DbSet<School> Schools { get; set; } = null!;
     public DbSet<Subject> Subjects { get; set; } = null!;
     public DbSet<Class> Classes { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;

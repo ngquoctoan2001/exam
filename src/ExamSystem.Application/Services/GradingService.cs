@@ -173,7 +173,7 @@ public class GradingService : IGradingService
         }
     }
 
-    public async Task<ExamResultDto> GetExamResultAsync(long attemptId)
+    public async Task<DetailedExamResultDto> GetDetailedExamResultAsync(long attemptId)
     {
         var attempt = await _context.ExamAttempts
             .Include(a => a.Exam).ThenInclude(e => e.ExamQuestions).ThenInclude(eq => eq.Question)
@@ -190,7 +190,7 @@ public class GradingService : IGradingService
             eq.Question.QuestionTypeId == 2 || eq.Question.QuestionTypeId == 5 // Essay or Drawing
         )).ToList();
 
-        return new ExamResultDto(attemptId, attempt.TotalScore ?? 0, questionGrades);
+        return new DetailedExamResultDto(attemptId, attempt.TotalScore ?? 0, questionGrades);
     }
 
     public async Task<IEnumerable<QuestionGradeDto>> GetQuestionsForGradingAsync(long examId)

@@ -1,8 +1,8 @@
-using AutoMapper;
 using ExamSystem.Application.DTOs;
 using ExamSystem.Application.Interfaces;
 using ExamSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace ExamSystem.Application.Services;
 
@@ -10,51 +10,64 @@ public class ExamAttemptService : IExamAttemptService
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
-    private readonly IGradingService _gradingService;
 
-    public ExamAttemptService(IApplicationDbContext context, IMapper mapper, IGradingService gradingService)
+    public ExamAttemptService(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
-        _gradingService = gradingService;
     }
 
     public async Task<ExamAttemptDto> StartAttemptAsync(long examId, long studentId)
     {
-        var attempt = await _context.ExamAttempts
-            .Include(a => a.Exam).ThenInclude(e => e.Settings)
-            .Include(a => a.Exam).ThenInclude(e => e.Subject)
-            .FirstOrDefaultAsync(a => a.ExamId == examId && a.StudentId == studentId && a.EndTime == null);
+        var exam = await _context.Exams
+            .Include(e => e.ExamQuestions)
+                .ThenInclude(eq => eq.Question)
+                    .ThenInclude(q => q.Options)
+            .FirstOrDefaultAsync(e => e.Id == examId);
 
-        if (attempt == null)
+        if (exam == null) throw new Exception("Exam not found");
+
+        // Check if there's an existing ongoing attempt
+        var existingAttempt = await _context.ExamAttempts
+            .Include(a => a.Exam)
+            .Include(a => a.Answers)
+            .FirstOrDefaultAsync(a => a.ExamId == examId && a.StudentId == studentId && a.Status == "Ongoing");
+
+        if (existingAttempt != null)
         {
-            attempt = new ExamAttempt
-            {
-                ExamId = examId,
-                StudentId = studentId,
-                StartTime = DateTime.UtcNow
-            };
-            _context.ExamAttempts.Add(attempt);
-            await _context.SaveChangesAsync();
+            return MapToDto(existingAttempt, exam);
         }
 
-        return await GetAttemptDtoAsync(attempt.Id);
+        var attempt = new ExamAttempt
+        {
+            ExamId = examId,
+            StudentId = studentId,
+            StartTime = DateTime.UtcNow,
+            Status = "Ongoing"
+        };
+
+        _context.ExamAttempts.Add(attempt);
+        await _context.SaveChangesAsync();
+
+        return MapToDto(attempt, exam);
     }
 
     public async Task SaveAnswerAsync(long attemptId, SaveAnswerDto dto)
     {
-        var answer = await _context.Answers
-            .Include(a => a.SelectedOptions)
-            .Include(a => a.Canvas)
-            .FirstOrDefaultAsync(a => a.AttemptId == attemptId && a.QuestionId == dto.QuestionId);
+        var attempt = await _context.ExamAttempts
+            .Include(a => a.Answers)
+            .FirstOrDefaultAsync(a => a.Id == attemptId);
 
+        if (attempt == null || attempt.Status != "Ongoing")
+            throw new Exception("Attempt not found or already submitted");
+
+        var answer = attempt.Answers.FirstOrDefault(a => a.QuestionId == dto.QuestionId);
         if (answer == null)
         {
             answer = new Answer
             {
                 AttemptId = attemptId,
-                QuestionId = dto.QuestionId,
-                CreatedAt = DateTime.UtcNow
+                QuestionId = dto.QuestionId
             };
             _context.Answers.Add(answer);
         }
@@ -62,100 +75,87 @@ public class ExamAttemptService : IExamAttemptService
         answer.AnswerText = dto.TextAnswer;
         answer.UpdatedAt = DateTime.UtcNow;
 
-        // Update Options
-        if (dto.SelectedOptionIds != null)
-        {
-            _context.AnswerOptions.RemoveRange(answer.SelectedOptions);
-            foreach (var optId in dto.SelectedOptionIds)
-            {
-                _context.AnswerOptions.Add(new AnswerOption { Answer = answer, OptionId = optId });
-            }
-        }
-
-        // Update Canvas
-        if (!string.IsNullOrEmpty(dto.CanvasDataJson))
+        if (dto.CanvasDataJson != null)
         {
             if (answer.Canvas == null)
             {
-                answer.Canvas = new AnswerCanvas { Answer = answer };
+                answer.Canvas = new AnswerCanvas { AnswerId = answer.Id };
             }
             answer.Canvas.JsonData = dto.CanvasDataJson;
         }
 
-        await _context.SaveChangesAsync();
+        // Handle Selected Options
+        var existingOptions = await _context.AnswerOptions
+            .Where(ao => ao.AnswerId == answer.Id)
+            .ToListAsync();
+        _context.AnswerOptions.RemoveRange(existingOptions);
 
-        // Also update autosave record for redundancy
-        var autosave = await _context.AutosaveAnswers
-            .FirstOrDefaultAsync(asv => asv.AttemptId == attemptId && asv.QuestionId == dto.QuestionId);
-        
-        if (autosave == null)
+        if (dto.SelectedOptionIds != null)
         {
-            autosave = new AutosaveAnswer { AttemptId = attemptId, QuestionId = dto.QuestionId };
-            _context.AutosaveAnswers.Add(autosave);
+            foreach (var optId in dto.SelectedOptionIds)
+            {
+                _context.AnswerOptions.Add(new AnswerOption { AnswerId = answer.Id, OptionId = optId });
+            }
         }
-        autosave.Data = dto.TextAnswer ?? dto.CanvasDataJson ?? string.Join(",", dto.SelectedOptionIds ?? new List<long>());
-        autosave.SavedAt = DateTime.UtcNow;
-        
+
         await _context.SaveChangesAsync();
     }
 
     public async Task SubmitAttemptAsync(long attemptId)
     {
         var attempt = await _context.ExamAttempts.FindAsync(attemptId);
-        if (attempt != null && attempt.EndTime == null)
-        {
-            attempt.EndTime = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
-            
-            // Trigger Auto-grading here
-            await _gradingService.AutoGradeAttemptAsync(attemptId);
-        }
+        if (attempt == null) throw new Exception("Attempt not found");
+
+        attempt.Status = "Submitted";
+        attempt.EndTime = DateTime.UtcNow;
+
+        // Auto Grade MCQ questions here or call GradingService
+        await _context.SaveChangesAsync();
     }
 
     public async Task<ExamAttemptDto> GetCurrentAttemptAsync(long examId, long studentId)
     {
         var attempt = await _context.ExamAttempts
-            .FirstOrDefaultAsync(a => a.ExamId == examId && a.StudentId == studentId && a.EndTime == null);
-        
-        return attempt != null ? await GetAttemptDtoAsync(attempt.Id) : null!;
+            .Include(a => a.Exam)
+            .Include(a => a.Answers)
+            .FirstOrDefaultAsync(a => a.ExamId == examId && a.StudentId == studentId && a.Status == "Ongoing");
+
+        if (attempt == null) return null;
+
+        var exam = await _context.Exams
+            .Include(e => e.ExamQuestions)
+                .ThenInclude(eq => eq.Question)
+                    .ThenInclude(q => q.Options)
+            .FirstAsync(e => e.Id == examId);
+
+        return MapToDto(attempt, exam);
     }
 
-    private async Task<ExamAttemptDto> GetAttemptDtoAsync(long attemptId)
+    private ExamAttemptDto MapToDto(ExamAttempt attempt, Exam exam)
     {
-        var attempt = await _context.ExamAttempts
-            .Include(a => a.Exam).ThenInclude(e => e.Subject)
-            .Include(a => a.Exam).ThenInclude(e => e.Settings)
-            .Include(a => a.Exam).ThenInclude(e => e.ExamQuestions).ThenInclude(eq => eq.Question).ThenInclude(q => q.Options)
-            .FirstOrDefaultAsync(a => a.Id == attemptId);
+        var remainingSeconds = (int)(exam.StartTime.AddMinutes(exam.DurationMinutes + (attempt.StartTime - exam.StartTime).TotalMinutes) - DateTime.UtcNow).TotalSeconds;
+        // Simpler calculation: startTime + duration - now
+        var durationMinutes = exam.DurationMinutes;
+        var endTime = attempt.StartTime.AddMinutes(durationMinutes);
+        remainingSeconds = (int)(endTime - DateTime.UtcNow).TotalSeconds;
 
-        var dto = _mapper.Map<ExamAttemptDto>(attempt);
+        var questions = exam.ExamQuestions.OrderBy(eq => eq.OrderIndex).Select(eq => new ExamQuestionDto(
+            eq.Id,
+            eq.QuestionId,
+            eq.Question.QuestionTypeId,
+            eq.Question.Content,
+            eq.OrderIndex,
+            eq.Question.Options.Select(o => new ExamQuestionOptionDto(o.Id, o.OptionLabel, o.Content)).ToList()
+        )).ToList();
 
-        // Shuffle questions if enabled
-        if (attempt?.Exam?.Settings?.ShuffleQuestions == true && dto.Questions != null)
-        {
-            var rng = new Random();
-            dto = dto with { Questions = dto.Questions.OrderBy(_ => rng.Next()).ToList() };
-        }
-
-        // Shuffle options for each question if enabled
-        if (attempt?.Exam?.Settings?.ShuffleAnswers == true && dto.Questions != null)
-        {
-            var rng = new Random();
-            foreach (var q in dto.Questions)
-            {
-                if (q.Options != null)
-                {
-                    var shuffled = q.Options.OrderBy(_ => rng.Next()).ToList();
-                    dto.Questions[dto.Questions.IndexOf(q)] = q with { Options = shuffled };
-                }
-            }
-        }
-        
-        // Calculate remaining time
-        var elapsedSeconds = (int)(DateTime.UtcNow - attempt!.StartTime).TotalSeconds;
-        var durationSeconds = attempt.Exam.DurationMinutes * 60;
-        dto = dto with { RemainingSeconds = Math.Max(0, durationSeconds - elapsedSeconds) };
-
-        return dto;
+        return new ExamAttemptDto(
+            attempt.Id,
+            attempt.ExamId,
+            exam.Title,
+            attempt.StartTime,
+            attempt.EndTime,
+            remainingSeconds > 0 ? remainingSeconds : 0,
+            questions
+        );
     }
 }

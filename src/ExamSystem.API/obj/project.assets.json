@@ -866,7 +866,10 @@
         },
         "runtime": {
           "bin/placeholder/ExamSystem.Application.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "ExamSystem.Domain/1.0.0": {
         "type": "project",
@@ -2964,8 +2967,8 @@
             "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Application\\ExamSystem.Application.csproj": {
               "projectPath": "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Application\\ExamSystem.Application.csproj"
             },
-            "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Infrastructure\\ExamSystem.Infrastructure.csproj": {
-              "projectPath": "c:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Infrastructure\\ExamSystem.Infrastructure.csproj"
+            "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Infrastructure\\ExamSystem.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\ADMIN\\OneDrive\\Máy tính\\exam\\src\\ExamSystem.Infrastructure\\ExamSystem.Infrastructure.csproj"
             }
           }
         }

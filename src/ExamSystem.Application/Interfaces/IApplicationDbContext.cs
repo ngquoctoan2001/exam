@@ -5,7 +5,6 @@ namespace ExamSystem.Application.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<School> Schools { get; }
     DbSet<Subject> Subjects { get; }
     DbSet<Class> Classes { get; }
     DbSet<Teacher> Teachers { get; }
@@ -41,6 +40,10 @@ public interface IApplicationDbContext
     DbSet<UserLoginLog> UserLoginLogs { get; }
     DbSet<Permission> Permissions { get; }
     DbSet<RolePermission> RolePermissions { get; }
+    
+    DbSet<User> Users { get; }
+    DbSet<Role> Roles { get; }
+    DbSet<UserRole> UserRoles { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

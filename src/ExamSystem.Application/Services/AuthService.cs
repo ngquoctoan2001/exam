@@ -40,11 +40,14 @@ public class AuthService : IAuthService
         var roles = await _userManager.GetRolesAsync(user);
         var token = _tokenService.CreateToken(user, roles);
 
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Role = roles.FirstOrDefault() ?? "";
+
         return new AuthResponseDto(
             token, 
             "dummy_refresh_token", 
             DateTime.UtcNow.AddDays(7), 
-            _mapper.Map<UserDto>(user)
+            userDto
         );
     }
 
@@ -80,11 +83,14 @@ public class AuthService : IAuthService
         var roles = new List<string> { dto.Role };
         var token = _tokenService.CreateToken(user, roles);
 
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Role = dto.Role;
+
         return new AuthResponseDto(
             token, 
             "dummy_refresh_token", 
             DateTime.UtcNow.AddDays(7), 
-            _mapper.Map<UserDto>(user)
+            userDto
         );
     }
 

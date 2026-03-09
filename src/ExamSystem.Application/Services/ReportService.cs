@@ -1,117 +1,75 @@
 using ExamSystem.Application.DTOs;
 using ExamSystem.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using MiniExcelLibs;
+using AutoMapper;
 
 namespace ExamSystem.Application.Services;
 
 public class ReportService : IReportService
 {
     private readonly IApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
-    public ReportService(IApplicationDbContext context)
+    public ReportService(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public async Task<ClassStatsDto> GetClassStatsAsync(long examId, long classId)
+    public async Task<byte[]> GenerateExamReportAsync(long examId)
     {
-        var results = await _context.ExamResults
-            .Include(er => er.Attempt)
-            .Where(er => er.Attempt.ExamId == examId && er.Attempt.Student.ClassId == classId)
+        return await Task.FromResult(Array.Empty<byte>());
+    }
+
+    public async Task<byte[]> GenerateClassReportAsync(long classId, long examId)
+    {
+        return await Task.FromResult(Array.Empty<byte>());
+    }
+
+    public async Task<IEnumerable<ExamResultDto>> GetResultsByExamAsync(long examId)
+    {
+        var attempts = await _context.ExamAttempts
+            .Include(a => a.Student)
+            .Where(a => a.ExamId == examId && (a.Status == "Submitted" || a.Status == "Graded"))
+            .ToListAsync();
+        
+        return attempts.Select(a => new ExamResultDto(
+            a.Id,
+            a.ExamId,
+            "", 
+            a.StudentId,
+            a.Student?.FullName ?? "Unknown",
+            a.TotalScore ?? 0,
+            a.EndTime ?? DateTime.UtcNow
+        ));
+    }
+
+    public async Task<DashboardStatsDto> GetDashboardStatsAsync(long userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+        var totalTeachers = await _context.Users.CountAsync(u => u.Role.ToUpper() == "TEACHER");
+        var totalStudents = await _context.Users.CountAsync(u => u.Role.ToUpper() == "STUDENT");
+        var ongoingExams = await _context.Exams.CountAsync(e => e.Status == "Ongoing");
+        
+        var totalAttempts = await _context.ExamAttempts.CountAsync();
+        var completedAttempts = await _context.ExamAttempts.CountAsync(a => a.Status == "Submitted" || a.Status == "Graded");
+        decimal completionRate = totalAttempts > 0 ? (decimal)completedAttempts / totalAttempts * 100 : 0;
+
+        var upcomingExams = await _context.Exams
+            .Include(e => e.Subject)
+            .Where(e => e.StartTime > DateTime.UtcNow && e.Status == "Published")
+            .OrderBy(e => e.StartTime)
+            .Take(5)
+            .Select(e => new UpcomingExamDto(e.Id, e.Title, e.Subject.Name, e.StartTime))
             .ToListAsync();
 
-        var totalStudents = await _context.Students.CountAsync(s => s.ClassId == classId);
-        var participatedCount = results.Count;
-
-        if (participatedCount == 0)
-        {
-            return new ClassStatsDto(classId, "Unknown", totalStudents, 0, 0, 0, 0, new List<ScoreRangeDto>());
-        }
-
-        var avgScore = results.Average(r => r.TotalScore ?? 0);
-        var maxScore = results.Max(r => r.TotalScore ?? 0);
-        var minScore = results.Min(r => r.TotalScore ?? 0);
-
-        // Score distribution
-        var distribution = new List<ScoreRangeDto>
-        {
-            new ScoreRangeDto("0-2", results.Count(r => (r.TotalScore ?? 0) < 2)),
-            new ScoreRangeDto("2-4", results.Count(r => (r.TotalScore ?? 0) >= 2 && (r.TotalScore ?? 0) < 4)),
-            new ScoreRangeDto("4-6", results.Count(r => (r.TotalScore ?? 0) >= 4 && (r.TotalScore ?? 0) < 6)),
-            new ScoreRangeDto("6-8", results.Count(r => (r.TotalScore ?? 0) >= 6 && (r.TotalScore ?? 0) < 8)),
-            new ScoreRangeDto("8-10", results.Count(r => (r.TotalScore ?? 0) >= 8))
-        };
-
-        var className = (await _context.Classes.FindAsync(classId))?.Name ?? "N/A";
-
-        return new ClassStatsDto(
-            classId, 
-            className, 
-            totalStudents, 
-            participatedCount, 
-            avgScore, 
-            maxScore, 
-            minScore, 
-            distribution
+        return new DashboardStatsDto(
+            user?.FullName ?? "Admin",
+            totalTeachers,
+            totalStudents,
+            ongoingExams,
+            Math.Round(completionRate, 1),
+            upcomingExams
         );
-    }
-
-    public async Task<IEnumerable<StudentProgressDto>> GetStudentProgressAsync(long classId)
-    {
-        var students = await _context.Students
-            .Where(s => s.ClassId == classId)
-            .Include(s => s.User)
-            .ToListAsync();
-
-        var progressList = new List<StudentProgressDto>();
-
-        foreach (var student in students)
-        {
-            var results = await _context.ExamResults
-                .Include(er => er.Attempt).ThenInclude(a => a.Exam)
-                .Where(er => er.Attempt.StudentId == student.Id)
-                .OrderByDescending(er => er.Attempt.StartTime)
-                .ToListAsync();
-
-            if (results.Any())
-            {
-                progressList.Add(new StudentProgressDto(
-                    student.Id,
-                    student.FullName,
-                    results.Count,
-                    results.Average(r => r.TotalScore ?? 0),
-                    results.Take(5).Select(r => new ExamScoreDto(r.Attempt.Exam.Title, r.TotalScore ?? 0, r.Attempt.StartTime)).ToList()
-                ));
-            }
-        }
-
-        return progressList;
-    }
-
-    public async Task<byte[]> ExportExamResultsToExcelAsync(long examId)
-    {
-        var results = await _context.ExamResults
-            .Include(er => er.Attempt).ThenInclude(a => a.Student)
-            .Where(er => er.Attempt.ExamId == examId)
-            .Select(er => new 
-            {
-                MaHS = er.Attempt.Student.StudentCode,
-                HoTen = er.Attempt.Student.FullName,
-                Diem = er.Attempt.TotalScore,
-                ThoiGianNop = er.Attempt.EndTime
-            })
-            .ToListAsync();
-
-        using var memoryStream = new System.IO.MemoryStream();
-        memoryStream.SaveAs(results);
-        return memoryStream.ToArray();
-    }
-
-    public async Task<byte[]> ExportExamResultsToPdfAsync(long examId)
-    {
-        // For production, use QuestPDF or similar. 
-        // Mocking for now as it requires specific library setup.
-        return await Task.FromResult(System.Text.Encoding.UTF8.GetBytes("PDF Export - Standard A4 Format (Mock)"));
     }
 }

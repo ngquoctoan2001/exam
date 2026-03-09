@@ -6,14 +6,14 @@ public record GradeResultDto(
     string? Comment, 
     string? AnnotationData);
 
-public record ExamResultDto(
+public record DetailedExamResultDto(
     long AttemptId, 
     decimal TotalScore, 
     List<QuestionGradeDto> QuestionGrades);
 
 public record QuestionGradeDto(
     long QuestionId, 
-    string Content, 
+    string QuestionContent, 
     decimal MaxScore, 
     decimal EarnedScore, 
     bool IsManual);

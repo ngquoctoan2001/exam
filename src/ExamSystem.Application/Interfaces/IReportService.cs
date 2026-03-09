@@ -4,8 +4,8 @@ namespace ExamSystem.Application.Interfaces;
 
 public interface IReportService
 {
-    Task<ClassStatsDto> GetClassStatsAsync(long examId, long classId);
-    Task<IEnumerable<StudentProgressDto>> GetStudentProgressAsync(long classId);
-    Task<byte[]> ExportExamResultsToExcelAsync(long examId);
-    Task<byte[]> ExportExamResultsToPdfAsync(long examId);
+    Task<byte[]> GenerateExamReportAsync(long examId);
+    Task<byte[]> GenerateClassReportAsync(long classId, long examId);
+    Task<IEnumerable<ExamResultDto>> GetResultsByExamAsync(long examId);
+    Task<DashboardStatsDto> GetDashboardStatsAsync(long userId);
 }

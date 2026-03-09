@@ -18,15 +18,18 @@ public record AuthResponseDto(
     UserDto User
 );
 
-public record UserDto(
-    long Id, 
-    string Username, 
-    string Email, 
-    string FullName, 
-    string Role,
-    bool IsActive
-);
+public class UserDto
+{
+    public long Id { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string FullName { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
+}
 
 public record ChangePasswordDto(string OldPassword, string NewPassword);
 
 public record ResetPasswordDto(string Email, string NewPassword, string Token);
+
+public record ImportUserResult(bool Success, string Message, int Count);

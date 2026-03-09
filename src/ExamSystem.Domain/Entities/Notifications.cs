@@ -5,11 +5,13 @@ public class Notification
     public long Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
+    public string Type { get; set; } = "INFO";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
 
 public class NotificationUser
 {
+    public long Id { get; set; }
     public long NotificationId { get; set; }
     public long UserId { get; set; }
     public bool IsRead { get; set; } = false;

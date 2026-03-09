@@ -1,6 +1,7 @@
 using ExamSystem.Application.DTOs;
 using ExamSystem.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ExamSystem.API.Controllers;
 
@@ -13,29 +14,30 @@ public class ReportsController : BaseApiController
         _reportService = reportService;
     }
 
-    [HttpGet("class-stats")]
-    public async Task<ActionResult<ClassStatsDto>> GetClassStats([FromQuery] long examId, [FromQuery] long classId)
+    [HttpGet("exam/{examId}")]
+    public async Task<ActionResult<IEnumerable<ExamResultDto>>> GetExamResults(long examId)
     {
-        return Ok(await _reportService.GetClassStatsAsync(examId, classId));
+        return Ok(await _reportService.GetResultsByExamAsync(examId));
     }
 
-    [HttpGet("student-progress/{classId}")]
-    public async Task<ActionResult<IEnumerable<StudentProgressDto>>> GetStudentProgress(long classId)
+    [HttpGet("exam/{examId}/export")]
+    public async Task<IActionResult> ExportExamReport(long examId)
     {
-        return Ok(await _reportService.GetStudentProgressAsync(classId));
+        var data = await _reportService.GenerateExamReportAsync(examId);
+        return File(data, "application/pdf", $"ExamReport_{examId}.pdf");
     }
 
-    [HttpGet("export/excel/{examId}")]
-    public async Task<IActionResult> ExportExcel(long examId)
+    [HttpGet("class/{classId}/exam/{examId}/export")]
+    public async Task<IActionResult> ExportClassReport(long classId, long examId)
     {
-        var data = await _reportService.ExportExamResultsToExcelAsync(examId);
-        return File(data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"KetQua_KyThi_{examId}.xlsx");
+        var data = await _reportService.GenerateClassReportAsync(classId, examId);
+        return File(data, "application/pdf", $"ClassReport_{classId}_{examId}.pdf");
     }
 
-    [HttpGet("export/pdf/{examId}")]
-    public async Task<IActionResult> ExportPdf(long examId)
+    [HttpGet("dashboard-stats")]
+    public async Task<ActionResult<DashboardStatsDto>> GetDashboardStats()
     {
-        var data = await _reportService.ExportExamResultsToPdfAsync(examId);
-        return File(data, "application/pdf", $"KetQua_KyThi_{examId}.pdf");
+        var userId = long.Parse(User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)!);
+        return Ok(await _reportService.GetDashboardStatsAsync(userId));
     }
 }
