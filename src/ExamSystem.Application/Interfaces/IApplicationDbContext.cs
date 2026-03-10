@@ -9,6 +9,7 @@ public interface IApplicationDbContext
     DbSet<Class> Classes { get; }
     DbSet<Teacher> Teachers { get; }
     DbSet<Student> Students { get; }
+    DbSet<StudentScore> StudentScores { get; }
     DbSet<ClassSubjectTeacher> ClassSubjectTeachers { get; }
     DbSet<Exam> Exams { get; }
     DbSet<ExamClass> ExamClasses { get; }

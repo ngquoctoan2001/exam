@@ -35,3 +35,5 @@ export const authService = {
         return user ? JSON.parse(user) : null;
     }
 };
+
+export default authService;

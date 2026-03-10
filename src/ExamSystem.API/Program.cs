@@ -3,6 +3,7 @@ using ExamSystem.Infrastructure;
 using ExamSystem.Domain.Entities;
 using ExamSystem.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +60,10 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
         var userManager = services.GetRequiredService<UserManager<User>>();
         var roleManager = services.GetRequiredService<RoleManager<Role>>();
+
+        // Apply migrations
+        await context.Database.MigrateAsync();
+        
         await DbInitializer.SeedAsync(context, userManager, roleManager);
     }
     catch (Exception ex)

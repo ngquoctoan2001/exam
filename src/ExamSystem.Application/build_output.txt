@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  ExamSystem.Domain -> c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Domain\bin\Debug\net10.0\ExamSystem.Domain.dll
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs(23,29): error CS1061: 'Class' does not contain a definition for 'HomeroomTeacher' and no accessible extension method 'HomeroomTeacher' accepting a first argument of type 'Class' could be found (are you missing a using directive or an assembly reference?) [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\ExamSystem.Application.csproj]
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ExamAttemptService.cs(123,37): warning CS8603: Possible null reference return. [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\ExamSystem.Application.csproj]
+
+Build FAILED.
+
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ExamAttemptService.cs(123,37): warning CS8603: Possible null reference return. [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\ExamSystem.Application.csproj]
+c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\Services\ClassService.cs(23,29): error CS1061: 'Class' does not contain a definition for 'HomeroomTeacher' and no accessible extension method 'HomeroomTeacher' accepting a first argument of type 'Class' could be found (are you missing a using directive or an assembly reference?) [c:\Users\ADMIN\OneDrive\M├íy t├¡nh\exam\src\ExamSystem.Application\ExamSystem.Application.csproj]
+    1 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.29

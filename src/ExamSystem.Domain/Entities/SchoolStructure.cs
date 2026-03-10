@@ -13,8 +13,9 @@ public class Class
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public int Grade { get; set; }
-    public long HomeroomTeacherId { get; set; }
+    public long? HomeroomTeacherId { get; set; }
     
+    public virtual Teacher HomeroomTeacher { get; set; } = null!;
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 }
 

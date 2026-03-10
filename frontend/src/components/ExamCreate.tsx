@@ -12,6 +12,7 @@ import {
     BookOpen
 } from 'lucide-react';
 import api from '../services/api';
+import authService from '../services/auth.service';
 
 const ExamCreate: React.FC = () => {
     const navigate = useNavigate();
@@ -33,7 +34,8 @@ const ExamCreate: React.FC = () => {
             shuffleQuestions: true,
             shuffleAnswers: true,
             showResultImmediately: true,
-            allowReview: true
+            allowReview: true,
+            antiCheat: true
         }
     });
 
@@ -74,12 +76,23 @@ const ExamCreate: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (formData.selectedClassIds.length === 0) {
+            alert("Vui lòng chọn ít nhất một lớp học cho kỳ thi.");
+            return;
+        }
+        if (selectedQuestions.length === 0) {
+            alert("Vui lòng chọn ít nhất một câu hỏi cho đề thi.");
+            return;
+        }
+
+        const user = authService.getCurrentUser();
+
         try {
             // 1. Create the exam
             const createPayload = {
                 title: formData.title,
                 subjectId: parseInt(formData.subjectId),
-                teacherId: 1, // Placeholder: Use real teacherId from auth
+                teacherId: user?.id || 1,
                 durationMinutes: formData.durationMinutes,
                 startTime: new Date(formData.startTime).toISOString(),
                 endTime: new Date(formData.endTime).toISOString(),
@@ -194,6 +207,38 @@ const ExamCreate: React.FC = () => {
                                     />
                                 </div>
                             </div>
+                        </div>
+                    </section>
+
+                    <section className="bg-white p-8 rounded-[40px] shadow-xl border border-white space-y-6">
+                        <div className="flex items-center gap-3 text-amber-600 mb-2">
+                            <Settings size={20} className="font-bold" />
+                            <h2 className="font-black uppercase tracking-widest text-xs">Cài đặt nâng cao</h2>
+                        </div>
+                        <div className="space-y-4">
+                            {[
+                                { key: 'shuffleQuestions', label: 'Tráo thứ tự câu hỏi' },
+                                { key: 'shuffleAnswers', label: 'Tráo thứ tự đáp án' },
+                                { key: 'showResultImmediately', label: 'Xem điểm ngay sau nộp' },
+                                { key: 'allowReview', label: 'Cho phép xem lại bài' },
+                                { key: 'antiCheat', label: 'Bật chống gian lận (Tab)' }
+                            ].map((item: any) => (
+                                <div key={item.key} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                                    <span className="text-sm font-bold text-slate-700">{item.label}</span>
+                                    <button
+                                        onClick={() => setFormData({
+                                            ...formData,
+                                            settings: {
+                                                ...formData.settings,
+                                                [item.key]: !(formData.settings as any)[item.key]
+                                            }
+                                        })}
+                                        className={`w-12 h-6 rounded-full transition-all relative ${(formData.settings as any)[item.key] ? 'bg-blue-600' : 'bg-slate-200'}`}
+                                    >
+                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${(formData.settings as any)[item.key] ? 'left-7' : 'left-1'}`} />
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     </section>
 

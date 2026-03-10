@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IExamAttemptService, ExamAttemptService>();
         services.AddScoped<IGradingService, GradingService>();
         services.AddScoped<ISystemSettingsService, SystemSettingsService>();
+        services.AddScoped<IScoreService, ScoreService>();
 
         return services;
     }

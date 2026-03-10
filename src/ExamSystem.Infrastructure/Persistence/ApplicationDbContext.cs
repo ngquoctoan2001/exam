@@ -10,11 +10,17 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, long, Identity
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+    }
+
     // 2. School Structure
     public DbSet<Subject> Subjects { get; set; } = null!;
     public DbSet<Class> Classes { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
+    public DbSet<StudentScore> StudentScores { get; set; } = null!;
     public DbSet<ClassSubjectTeacher> ClassSubjectTeachers { get; set; } = null!;
 
     // 3. Exam Management
@@ -106,8 +112,14 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, long, Identity
             .HasKey(nu => new { nu.NotificationId, nu.UserId });
 
         // ExamStatistic configuration
-        builder.Entity<ExamStatistic>()
-            .HasKey(es => es.ExamId);
+        builder.Entity<ExamStatistic>(entity =>
+        {
+            entity.HasKey(es => es.ExamId);
+            entity.HasOne(es => es.Exam)
+                  .WithOne()
+                  .HasForeignKey<ExamStatistic>(es => es.ExamId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        });
 
         // Question-Tag mapping
         builder.Entity<QuestionTagMap>()
@@ -116,5 +128,32 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, long, Identity
         // Additional constraints
         builder.Entity<Teacher>().HasIndex(t => t.TeacherCode).IsUnique();
         builder.Entity<Student>().HasIndex(s => s.StudentCode).IsUnique();
+
+        // SQLite Specific: Fix AUTOINCREMENT on non-primary key INTEGER columns
+        if (Database.IsSqlite())
+        {
+            foreach (var entity in builder.Model.GetEntityTypes())
+            {
+                var primaryKey = entity.FindPrimaryKey();
+                foreach (var property in entity.GetProperties())
+                {
+                    if (property.ClrType == typeof(long))
+                    {
+                        property.SetColumnType("INTEGER");
+                        
+                        // SQLite only allows AUTOINCREMENT on a single INTEGER PRIMARY KEY
+                        // If it's a composite key or not a primary key, we must disable ValueGeneratedOnAdd
+                        if (primaryKey != null && primaryKey.Properties.Count == 1 && primaryKey.Properties.Contains(property))
+                        {
+                            property.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAdd;
+                        }
+                        else
+                        {
+                            property.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

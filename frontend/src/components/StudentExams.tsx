@@ -3,17 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import { BookOpen, Calendar, Clock, PlayCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '../services/api';
+import authService from '../services/auth.service';
 
 const StudentExams: React.FC = () => {
     const navigate = useNavigate();
     const [exams, setExams] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const user = authService.getCurrentUser();
+
     useEffect(() => {
         const fetchExams = async () => {
             try {
-                const response = await api.get('/exams/available');
-                setExams(response.data);
+                // Fetch all exams and filter on frontend for now to ensure visibility
+                const response = await api.get('/exams');
+                const allExams = response.data;
+
+                // If user is a student, filter by their class
+                // (Note: In a production app, this filtering should happen on backend)
+                if (user?.role?.toUpperCase() === 'STUDENT' && user?.classId) {
+                    setExams(allExams.filter((e: any) => e.classIds?.includes(user.classId)));
+                } else {
+                    setExams(allExams);
+                }
             } catch (error) {
                 console.error("Failed to fetch exams", error);
             } finally {
@@ -76,8 +88,8 @@ const StudentExams: React.FC = () => {
                                 onClick={() => navigate(`/exam/${exam.id}`)}
                                 disabled={exam.status !== 'Ongoing'}
                                 className={`w-full py-4 rounded-3xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg active:scale-95 ${exam.status === 'Ongoing'
-                                        ? 'bg-slate-900 hover:bg-blue-600 text-white'
-                                        : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                    ? 'bg-slate-900 hover:bg-blue-600 text-white'
+                                    : 'bg-slate-100 text-slate-400 cursor-not-allowed'
                                     }`}
                             >
                                 <PlayCircle size={22} />

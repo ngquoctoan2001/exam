@@ -12,7 +12,11 @@ import {
     Eraser,
     Undo,
     Redo,
-    AlertCircle
+    AlertCircle,
+    Bookmark,
+    BookmarkCheck,
+    CheckCircle2,
+    Info
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../services/api';
@@ -26,13 +30,20 @@ const ExamPlayer: React.FC = () => {
     const [isAutoSaving, setIsAutoSaving] = useState(false);
     const [lastSaved, setLastSaved] = useState<string>('');
     const [answers, setAnswers] = useState<Record<number, any>>({});
+    const [markedQuestions, setMarkedQuestions] = useState<Set<number>>(new Set());
+    const [showCheatWarning, setShowCheatWarning] = useState(false);
     const canvasRef = useRef<any>(null);
 
-    // Load Attempt on Mount
+    // Question Type Constants
+    const TYPE_MCQ = 1;
+    const TYPE_ESSAY = 2;
+    const TYPE_TRUE_FALSE = 3;
+    const TYPE_SHORT_ANSWER = 4;
+    const TYPE_DRAWING = 5;
+
     useEffect(() => {
         const fetchAttempt = async () => {
             try {
-                // Try to get current attempt first, if not exists, start new
                 let response;
                 try {
                     response = await api.get(`/examattempts/current/${id}`);
@@ -43,7 +54,6 @@ const ExamPlayer: React.FC = () => {
                 setAttempt(response.data);
                 setTimeLeft(response.data.remainingSeconds);
 
-                // Initialize answers from attempt data if available
                 const initialAnswers: Record<number, any> = {};
                 response.data.questions.forEach((q: any) => {
                     if (q.currentAnswer) {
@@ -53,10 +63,12 @@ const ExamPlayer: React.FC = () => {
                 setAnswers(initialAnswers);
             } catch (error) {
                 console.error("Failed to fetch exam attempt", error);
+                alert("Không thể tải bài thi. Vui lòng thử lại.");
+                navigate('/admin/dashboard');
             }
         };
         fetchAttempt();
-    }, [id]);
+    }, [id, navigate]);
 
     const saveAnswer = async (questionId: number, answerData: any) => {
         if (!attempt) return;
@@ -64,15 +76,13 @@ const ExamPlayer: React.FC = () => {
         try {
             await api.post(`/examattempts/${attempt.id}/save`, {
                 questionId,
-                textAnswer: answerData.textAnswer,
-                selectedOptionIds: answerData.selectedOptionIds,
-                canvasDataJson: answerData.canvasDataJson
+                ...answerData
             });
-            setLastSaved(new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }));
+            setLastSaved(new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
         } catch (error) {
-            console.error("Failed to save answer", error);
+            console.error("Failed to auto-save answer", error);
         } finally {
-            setTimeout(() => setIsAutoSaving(false), 500);
+            setTimeout(() => setIsAutoSaving(false), 800);
         }
     };
 
@@ -83,7 +93,7 @@ const ExamPlayer: React.FC = () => {
     };
 
     const handleTextChange = (questionId: number, text: string) => {
-        const newAnswers = { ...answers, [questionId]: { textAnswer: text } };
+        const newAnswers = { ...answers, [questionId]: { ...answers[questionId], textAnswer: text } };
         setAnswers(newAnswers);
     };
 
@@ -98,33 +108,48 @@ const ExamPlayer: React.FC = () => {
         if (canvasRef.current) {
             const paths = await canvasRef.current.exportPaths();
             const canvasDataJson = JSON.stringify(paths);
-            const newAnswers = { ...answers, [questionId]: { canvasDataJson } };
+            const newAnswers = { ...answers, [questionId]: { ...answers[questionId], canvasDataJson } };
             setAnswers(newAnswers);
             saveAnswer(questionId, { canvasDataJson });
         }
     };
 
+    const toggleMark = (index: number) => {
+        const newMarked = new Set(markedQuestions);
+        if (newMarked.has(index)) newMarked.delete(index);
+        else newMarked.add(index);
+        setMarkedQuestions(newMarked);
+    };
+
     const handleSubmit = async () => {
         if (!attempt) return;
-        if (window.confirm("Bạn có chắc chắn muốn nộp bài?")) {
+        const unansweredCount = attempt.questions.length - Object.keys(answers).length;
+        const confirmMsg = unansweredCount > 0
+            ? `Bạn còn ${unansweredCount} câu chưa làm. Bạn vẫn muốn nộp bài?`
+            : "Bạn có chắc chắn muốn nộp bài?";
+
+        if (window.confirm(confirmMsg)) {
             try {
                 await api.post(`/examattempts/${attempt.id}/submit`);
                 alert("Nộp bài thành công!");
-                navigate('/admin/dashboard'); // Or results page
+                navigate(`/student/results/${attempt.id}`);
             } catch (error) {
                 alert("Nộp bài thất bại. Vui lòng thử lại.");
             }
         }
     };
 
-    // Tab switching detection
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.hidden && attempt) {
-                // Log violation
+                setShowCheatWarning(true);
                 api.post(`/activitylogs`, {
                     action: 'TAB_SWITCH',
-                    details: `Học sinh chuyển tab khi đang làm bài thi ${attempt.examTitle}`
+                    details: JSON.stringify({
+                        examId: attempt.examId,
+                        examTitle: attempt.examTitle,
+                        time: new Date().toISOString()
+                    })
                 }).catch(console.error);
             }
         };
@@ -133,13 +158,11 @@ const ExamPlayer: React.FC = () => {
         return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
     }, [attempt]);
 
-    // Timer effect
     useEffect(() => {
         const timer = setInterval(() => {
             setTimeLeft((prev) => {
                 if (prev <= 1) {
                     clearInterval(timer);
-                    // Handle auto-submit here if needed
                     return 0;
                 }
                 return prev - 1;
@@ -152,15 +175,14 @@ const ExamPlayer: React.FC = () => {
         <div className="h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
             <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full"
+                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full shadow-xl shadow-blue-100"
             />
-            <span className="font-bold text-slate-400">Khởi tạo bài thi...</span>
+            <span className="font-black text-slate-400 uppercase tracking-widest text-xs">Đang tải đề thi...</span>
         </div>
     );
 
-    const questions = attempt.questions;
-    const currentQuestion = questions[currentQuestionIndex];
+    const currentQuestion = attempt.questions[currentQuestionIndex];
     const currentAnswer = answers[currentQuestion.questionId] || {};
 
     const formatTime = (seconds: number) => {
@@ -171,143 +193,195 @@ const ExamPlayer: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-slate-50 overflow-hidden font-sans">
-            <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 z-20 sticky top-0">
-                <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-blue-200">
+        <div className="flex flex-col h-screen bg-slate-50 overflow-hidden font-sans selection:bg-blue-100 selection:text-blue-900">
+            <AnimatePresence>
+                {showCheatWarning && (
+                    <motion.div
+                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-6"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
+                            className="bg-white rounded-[40px] p-10 max-w-md w-full shadow-2xl border border-red-100 text-center space-y-6"
+                        >
+                            <div className="w-20 h-20 bg-red-100 text-red-600 rounded-3xl flex items-center justify-center mx-auto">
+                                <AlertCircle size={40} strokeWidth={2.5} />
+                            </div>
+                            <div className="space-y-2">
+                                <h3 className="text-2xl font-black text-slate-900">CẢNH BÁO VI PHẠM!</h3>
+                                <p className="text-slate-500 font-medium leading-relaxed">
+                                    Hệ thống phát hiện bạn đã rời khỏi màn hình thi. Hành động này đã được ghi lại vào nhật ký hệ thống.
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => setShowCheatWarning(false)}
+                                className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl shadow-slate-200 active:scale-95 transition-all"
+                            >
+                                TÔI ĐÃ HIỂU
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-20 sticky top-0 shadow-sm">
+                <div className="flex items-center gap-5">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-200">
                         {attempt.examTitle.charAt(0)}
                     </div>
                     <div>
-                        <h1 className="text-lg font-bold text-slate-900 leading-tight">{attempt.examTitle}</h1>
-                        <p className="text-xs text-slate-500 font-medium">Đang trong quá trình làm bài</p>
+                        <h1 className="text-xl font-black text-slate-900 tracking-tight leading-none">{attempt.examTitle}</h1>
+                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1.5 flex items-center gap-2">
+                            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                            Đang trong quá trình làm bài
+                        </p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-6">
-                    <div className={`flex items-center gap-3 px-4 py-2 rounded-2xl border ${timeLeft < 300 ? 'bg-red-50 border-red-100 text-red-600' : 'bg-blue-50 border-blue-100 text-blue-600'} transition-colors`}>
-                        <Clock size={20} className={timeLeft < 300 ? 'animate-pulse' : ''} />
-                        <span className="text-xl font-mono font-bold">{formatTime(timeLeft)}</span>
+                <div className="flex items-center gap-8">
+                    <div className={`flex items-center gap-4 px-6 py-2.5 rounded-[20px] border-2 transition-all ${timeLeft < 300 ? 'bg-red-50 border-red-200 text-red-600 shadow-lg shadow-red-50' : 'bg-blue-50 border-blue-100 text-blue-600'}`}>
+                        <Clock size={22} className={timeLeft < 300 ? 'animate-bounce' : ''} />
+                        <span className="text-2xl font-mono font-black tabular-nums tracking-tighter">{formatTime(timeLeft)}</span>
                     </div>
+
                     <button
                         onClick={handleSubmit}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-2xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-blue-200 active:scale-95"
+                        className="bg-slate-900 hover:bg-blue-600 text-white px-8 py-3 rounded-2xl font-black flex items-center gap-3 transition-all shadow-xl shadow-slate-200 active:scale-95 group"
                     >
-                        <Send size={18} />
-                        Nộp bài
+                        <span>NỘP BÀI</span>
+                        <Send size={18} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>
             </header>
 
             <div className="flex flex-1 overflow-hidden">
-                <main className="flex-1 overflow-y-auto p-8 lg:p-12 relative">
+                <aside className="w-80 bg-white border-r border-slate-200 flex flex-col p-8 overflow-y-auto hidden xl:flex">
+                    <section className="mb-10">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Bảng câu hỏi</h3>
+                            <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
+                                {Object.keys(answers).length}/{attempt.questions.length} XONG
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-3">
+                            {attempt.questions.map((_: any, i: number) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setCurrentQuestionIndex(i)}
+                                    className={`relative w-full aspect-square rounded-2xl font-black text-sm flex items-center justify-center transition-all border-2 ${currentQuestionIndex === i
+                                            ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100 scale-105 z-10'
+                                            : markedQuestions.has(i)
+                                                ? 'bg-amber-50 border-amber-400 text-amber-600'
+                                                : answers[attempt.questions[i].questionId]
+                                                    ? 'bg-emerald-50 border-emerald-500 text-emerald-600'
+                                                    : 'bg-slate-50 border-transparent text-slate-400 hover:border-slate-200'
+                                        }`}
+                                >
+                                    {i + 1}
+                                    {markedQuestions.has(i) && <div className="absolute -top-1 -right-1"><Bookmark size={12} className="fill-amber-500 text-amber-500" /></div>}
+                                    {answers[attempt.questions[i].questionId] && !markedQuestions.has(i) && <div className="absolute -top-1 -right-1 bg-white rounded-full"><CheckCircle2 size={12} className="text-emerald-500" /></div>}
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+
+                    <div className="mt-auto space-y-4 pt-6 border-t border-slate-100">
+                        <div className="bg-slate-50 p-6 rounded-[32px] border border-white shadow-inner space-y-3">
+                            <div className="flex items-center gap-3 text-slate-400 font-black text-[10px] uppercase tracking-wider mb-2">
+                                <Info size={14} /> Chú dẫn
+                            </div>
+                            <div className="flex items-center gap-3"><div className="w-3 h-3 bg-blue-600 rounded-md"></div><span className="text-[10px] font-bold text-slate-500 uppercase">Đang xem</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 h-3 bg-emerald-500 rounded-md"></div><span className="text-[10px] font-bold text-slate-500 uppercase">Đã trả lời</span></div>
+                            <div className="flex items-center gap-3"><div className="w-3 h-3 bg-amber-400 rounded-md"></div><span className="text-[10px] font-bold text-slate-500 uppercase">Đánh dấu sau</span></div>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-2 py-2">
+                            {isAutoSaving ? (
+                                <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest bg-blue-50 px-4 py-2 rounded-full">
+                                    <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}><RotateCcw size={12} /></motion.div>
+                                    Đang đồng bộ...
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-2 text-slate-400 font-black text-[10px] uppercase tracking-widest italic">
+                                    <Save size={12} /> Đồng bộ lúc {lastSaved || '--:--:--'}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </aside>
+
+                <main className="flex-1 overflow-y-auto p-6 md:p-12 lg:p-16 relative bg-white">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentQuestionIndex}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.2 }}
-                            className="max-w-4xl mx-auto space-y-8 pb-32"
+                            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                            className="max-w-4xl mx-auto space-y-12 pb-40"
                         >
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 <div className="flex items-center justify-between">
-                                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold tracking-wider uppercase">
-                                        Câu {currentQuestionIndex + 1}
-                                    </span>
-                                    {answers[currentQuestion.questionId] && (
-                                        <span className="text-[10px] text-emerald-500 font-bold flex items-center gap-1 uppercase tracking-tighter">
-                                            <Save size={12} /> Đã trả lời
-                                        </span>
-                                    )}
+                                    <div className="flex items-center gap-3">
+                                        <span className="px-5 py-2 bg-blue-600 text-white rounded-2xl text-sm font-black tracking-wider shadow-lg shadow-blue-100">CÂU HỎI {currentQuestionIndex + 1}</span>
+                                        <span className="px-4 py-2 bg-slate-100 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-widest">{currentQuestion.questionTypeName || 'Đề thi'}</span>
+                                    </div>
+                                    <button
+                                        onClick={() => toggleMark(currentQuestionIndex)}
+                                        className={`flex items-center gap-2 px-5 py-2 rounded-2xl font-black text-xs transition-all ${markedQuestions.has(currentQuestionIndex) ? 'bg-amber-500 text-white shadow-lg' : 'bg-white text-slate-400 border border-slate-200 hover:border-amber-400 hover:text-amber-500'}`}
+                                    >
+                                        {markedQuestions.has(currentQuestionIndex) ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+                                        {markedQuestions.has(currentQuestionIndex) ? 'ĐÃ ĐÁNH DẤU' : 'XEM LẠI SAU'}
+                                    </button>
                                 </div>
-                                <h2 className="text-2xl font-bold text-slate-800 leading-relaxed"
-                                    dangerouslySetInnerHTML={{ __html: currentQuestion.content }}
-                                />
+                                <h2 className="text-3xl font-extrabold text-slate-900 leading-[1.4]" dangerouslySetInnerHTML={{ __html: currentQuestion.content }} />
                             </div>
 
-                            <div className="bg-white p-8 rounded-[32px] shadow-xl shadow-slate-200/50 border border-white">
-                                {/* Trắc nghiệm (Multiple Choice) - ID: 1 */}
-                                {currentQuestion.questionTypeId === 1 && (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="bg-slate-50 p-10 rounded-[48px] border-4 border-white shadow-xl">
+                                {currentQuestion.questionTypeId === TYPE_MCQ && (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         {currentQuestion.options?.map((opt: any) => (
-                                            <label
-                                                key={opt.id}
-                                                className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all cursor-pointer group ${currentAnswer.selectedOptionIds?.includes(opt.id)
-                                                        ? 'bg-blue-50 border-blue-500 shadow-md shadow-blue-100'
-                                                        : 'border-slate-100 hover:bg-slate-50'
-                                                    }`}
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name={`q-${currentQuestion.id}`}
-                                                    className="w-5 h-5 text-blue-600 focus:ring-blue-500 border-slate-300"
-                                                    checked={currentAnswer.selectedOptionIds?.includes(opt.id)}
-                                                    onChange={() => handleOptionChange(currentQuestion.questionId, opt.id)}
-                                                />
-                                                <div className="flex-1">
-                                                    <span className={`block text-xs font-bold ${currentAnswer.selectedOptionIds?.includes(opt.id) ? 'text-blue-600' : 'text-slate-400'} mb-1`}>
-                                                        Lựa chọn {opt.optionLabel}
-                                                    </span>
-                                                    <span className="text-slate-700 font-medium group-hover:text-blue-700 transition-colors">
-                                                        {opt.content}
-                                                    </span>
-                                                </div>
+                                            <label key={opt.id} className={`flex items-center gap-5 p-6 rounded-3xl border-2 transition-all cursor-pointer group hover:scale-[1.02] ${currentAnswer.selectedOptionIds?.includes(opt.id) ? 'bg-white border-blue-600 shadow-xl' : 'border-slate-100 bg-white/50 hover:bg-white'}`}>
+                                                <div className={`w-10 h-10 rounded-2xl border-2 flex items-center justify-center font-black text-lg transition-all ${currentAnswer.selectedOptionIds?.includes(opt.id) ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-400'}`}>{opt.optionLabel}</div>
+                                                <span className="text-slate-800 font-bold text-lg">{opt.content}</span>
+                                                <input type="radio" name={`q-${currentQuestion.id}`} className="hidden" checked={currentAnswer.selectedOptionIds?.includes(opt.id)} onChange={() => handleOptionChange(currentQuestion.questionId, opt.id)} />
                                             </label>
                                         ))}
                                     </div>
                                 )}
 
-                                {/* Tự luận (Essay) - ID: 2 */}
-                                {currentQuestion.questionTypeId === 2 && (
-                                    <div className="space-y-4">
-                                        <textarea
-                                            className="w-full h-80 p-6 bg-slate-50 rounded-2xl border-none focus:ring-2 focus:ring-blue-100 outline-none text-slate-700 placeholder-slate-400 font-medium resize-none leading-relaxed"
-                                            placeholder="Gõ nội dung bài làm tại đây..."
-                                            value={currentAnswer.textAnswer || ''}
-                                            onChange={(e) => handleTextChange(currentQuestion.questionId, e.target.value)}
-                                            onBlur={() => handleTextBlur(currentQuestion.questionId)}
-                                        ></textarea>
-                                        <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase tracking-widest px-2">
-                                            <span>Nhấn ra ngoài để lưu tự động</span>
-                                            <span>Số ký tự: {(currentAnswer.textAnswer || '').length}</span>
-                                        </div>
+                                {currentQuestion.questionTypeId === TYPE_TRUE_FALSE && (
+                                    <div className="flex flex-col sm:flex-row gap-6 max-w-2xl mx-auto">
+                                        {[{ label: 'Đúng', value: 1, color: 'emerald' }, { label: 'Sai', value: 0, color: 'red' }].map((choice) => (
+                                            <button key={choice.label} onClick={() => handleOptionChange(currentQuestion.questionId, choice.value)} className={`flex-1 py-10 rounded-[32px] border-4 font-black text-2xl transition-all ${currentAnswer.selectedOptionIds?.includes(choice.value) ? `bg-white border-${choice.color}-500 text-${choice.color}-600 shadow-xl` : 'bg-white/50 border-transparent text-slate-300 hover:border-slate-200'}`}>{choice.label.toUpperCase()}</button>
+                                        ))}
                                     </div>
                                 )}
 
-                                {/* Vẽ/Sơ đồ (Sketch/Canvas) - ID: 5 */}
-                                {currentQuestion.questionTypeId === 5 && (
+                                {currentQuestion.questionTypeId === TYPE_SHORT_ANSWER && (
+                                    <div className="max-w-2xl mx-auto py-10">
+                                        <input type="text" className="w-full p-8 bg-slate-900 text-white rounded-[32px] text-2xl font-black placeholder-slate-600 outline-none border-8 border-slate-800 focus:border-blue-600 transition-all text-center uppercase tracking-widest shadow-2xl" placeholder="NHẬP ĐÁP ÁN..." value={currentAnswer.textAnswer || ''} onChange={(e) => handleTextChange(currentQuestion.questionId, e.target.value)} onBlur={() => handleTextBlur(currentQuestion.questionId)} />
+                                    </div>
+                                )}
+
+                                {currentQuestion.questionTypeId === TYPE_ESSAY && (
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between p-2 bg-slate-50 rounded-2xl border border-slate-100">
-                                            <div className="flex gap-1">
-                                                <button onClick={() => canvasRef.current?.eraseMode(false)} className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl text-slate-600 hover:text-blue-600 transition-all" title="Bút vẽ"><Pencil size={20} /></button>
-                                                <button onClick={() => canvasRef.current?.eraseMode(true)} className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl text-slate-600 hover:text-blue-600 transition-all" title="Tẩy"><Eraser size={20} /></button>
-                                                <div className="w-px h-8 bg-slate-200 mx-2 self-center"></div>
-                                                <button onClick={() => canvasRef.current?.undo()} className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl text-slate-600 hover:text-blue-600 transition-all" title="Hoàn tác"><Undo size={20} /></button>
-                                                <button onClick={() => canvasRef.current?.redo()} className="p-2.5 hover:bg-white hover:shadow-sm rounded-xl text-slate-600 hover:text-blue-600 transition-all" title="Làm lại"><Redo size={20} /></button>
+                                        <textarea className="w-full h-96 p-10 bg-white rounded-[40px] border-none focus:ring-[12px] focus:ring-blue-100 outline-none text-slate-700 placeholder-slate-300 font-bold text-lg resize-none leading-relaxed transition-all shadow-inner" placeholder="Trình bày chi tiết bài làm tại đây..." value={currentAnswer.textAnswer || ''} onChange={(e) => handleTextChange(currentQuestion.questionId, e.target.value)} onBlur={() => handleTextBlur(currentQuestion.questionId)}></textarea>
+                                        <div className="flex justify-between text-[11px] text-slate-400 font-black uppercase tracking-widest px-6"><span>Tự động nộp lưu khi thay đổi</span><span>{(currentAnswer.textAnswer || '').length} KÝ TỰ</span></div>
+                                    </div>
+                                )}
+
+                                {currentQuestion.questionTypeId === TYPE_DRAWING && (
+                                    <div className="space-y-6">
+                                        <div className="flex items-center justify-between p-3 bg-slate-900 text-white rounded-[32px] border-4 border-slate-800 shadow-2xl">
+                                            <div className="flex gap-2 ml-2">
+                                                <button onClick={() => canvasRef.current?.eraseMode(false)} className="p-3 hover:bg-white/10 rounded-2xl text-white hover:text-blue-400 transition-all"><Pencil size={24} /></button>
+                                                <button onClick={() => canvasRef.current?.eraseMode(true)} className="p-3 hover:bg-white/10 rounded-2xl text-white hover:text-red-400 transition-all"><Eraser size={24} /></button>
+                                                <div className="w-px h-10 bg-slate-700 mx-2 self-center"></div>
+                                                <button onClick={() => canvasRef.current?.undo()} className="p-3 hover:bg-white/10 rounded-2xl text-slate-400 hover:text-white transition-all"><Undo size={24} /></button>
+                                                <button onClick={() => canvasRef.current?.redo()} className="p-3 hover:bg-white/10 rounded-2xl text-slate-400 hover:text-white transition-all"><Redo size={24} /></button>
                                             </div>
-                                            <div className="flex gap-2 mr-2">
-                                                <button
-                                                    onClick={() => canvasRef.current?.clearCanvas()}
-                                                    className="px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                                                >
-                                                    Xóa hết
-                                                </button>
-                                                <button
-                                                    onClick={() => handleCanvasSave(currentQuestion.questionId)}
-                                                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg shadow-emerald-100 flex items-center gap-2"
-                                                >
-                                                    <Save size={16} /> Lưu hình vẽ
-                                                </button>
-                                            </div>
+                                            <button onClick={() => handleCanvasSave(currentQuestion.questionId)} className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-2xl text-xs font-black shadow-lg flex items-center gap-2 active:scale-95 transition-all mr-2"><Save size={18} /> LƯU HÌNH VẼ</button>
                                         </div>
-                                        <div className="h-[500px] border-2 border-dashed border-slate-200 rounded-3xl overflow-hidden bg-white shadow-inner">
-                                            <ReactSketchCanvas
-                                                ref={canvasRef}
-                                                strokeWidth={4}
-                                                strokeColor="#2563eb"
-                                                canvasColor="#ffffff"
-                                                className="w-full h-full"
-                                            />
+                                        <div className="h-[550px] border-8 border-white rounded-[48px] overflow-hidden bg-white shadow-inner relative group/canvas">
+                                            <ReactSketchCanvas ref={canvasRef} strokeWidth={5} strokeColor="#1e293b" canvasColor="#ffffff" className="w-full h-full" />
                                         </div>
                                     </div>
                                 )}
@@ -315,89 +389,12 @@ const ExamPlayer: React.FC = () => {
                         </motion.div>
                     </AnimatePresence>
 
-                    {/* Navigation Bar */}
-                    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 px-8 py-4 bg-white/90 backdrop-blur-xl rounded-[32px] shadow-2xl border border-white/50 z-30">
-                        <button
-                            onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
-                            disabled={currentQuestionIndex === 0}
-                            className="p-3 text-slate-400 hover:text-blue-600 disabled:opacity-20 transition-all active:scale-90"
-                        >
-                            <ChevronLeft size={28} strokeWidth={3} />
-                        </button>
-
-                        <div className="flex items-center gap-4 px-6 border-x border-slate-100">
-                            {questions.map((_: any, i: number) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setCurrentQuestionIndex(i)}
-                                    className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${currentQuestionIndex === i
-                                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 scale-110'
-                                        : answers[questions[i].questionId]
-                                            ? 'bg-emerald-100 text-emerald-600 border border-emerald-200'
-                                            : 'bg-slate-50 text-slate-400 hover:bg-slate-100 border border-transparent'
-                                        }`}
-                                >
-                                    {i + 1}
-                                </button>
-                            ))}
-                        </div>
-
-                        <button
-                            onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                            disabled={currentQuestionIndex === questions.length - 1}
-                            className="p-3 text-slate-400 hover:text-blue-600 disabled:opacity-20 transition-all active:scale-90"
-                        >
-                            <ChevronRight size={28} strokeWidth={3} />
-                        </button>
+                    <div className="fixed bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-8 px-10 py-5 bg-slate-900/90 backdrop-blur-2xl rounded-[40px] shadow-2xl border border-white/10 z-40">
+                        <button onClick={() => setCurrentQuestionIndex(prev => prev - 1)} disabled={currentQuestionIndex === 0} className="w-14 h-14 bg-white/5 hover:bg-white/20 text-white rounded-2xl flex items-center justify-center disabled:opacity-10 transition-all active:scale-75"><ChevronLeft size={32} strokeWidth={3} /></button>
+                        <div className="hidden sm:flex items-center gap-4 px-10 border-x border-white/10 h-10"><span className="text-white font-black text-2xl tabular-nums tracking-tighter">{currentQuestionIndex + 1} <span className="text-slate-500 text-lg mx-1">/</span> {attempt.questions.length}</span></div>
+                        <button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} disabled={currentQuestionIndex === attempt.questions.length - 1} className="w-14 h-14 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl flex items-center justify-center disabled:opacity-10 transition-all active:scale-75 shadow-lg shadow-blue-500/20"><ChevronRight size={32} strokeWidth={3} /></button>
                     </div>
                 </main>
-
-                {/* Sidebar Info */}
-                <aside className="w-80 bg-white border-l border-slate-200 flex flex-col p-8 sticky top-0 h-screen hidden 2xl:flex">
-                    <div className="bg-slate-50 rounded-[32px] p-6 mb-8 border border-white shadow-inner">
-                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Trạng thái bài làm</h3>
-                        <div className="space-y-6">
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-slate-500 font-medium">Hoàn thành</span>
-                                <span className="text-lg font-bold text-blue-600">
-                                    {Object.keys(answers).length} / {questions.length}
-                                </span>
-                            </div>
-                            <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${(Object.keys(answers).length / questions.length) * 100}%` }}
-                                    className="bg-blue-600 h-full shadow-lg shadow-blue-100"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="p-6 bg-blue-600 rounded-[32px] text-white shadow-xl shadow-blue-100 mb-8 overflow-hidden relative">
-                        <div className="relative z-10">
-                            <h4 className="text-xs font-bold text-blue-200 uppercase tracking-wider mb-2">Lưu ý quan trọng</h4>
-                            <p className="text-sm font-medium leading-relaxed">
-                                Hệ thống sẽ tự động nộp bài khi hết thời gian. Đừng quên nhấn "Lưu hình vẽ" cho câu hỏi sơ đồ!
-                            </p>
-                        </div>
-                        <AlertCircle className="absolute -bottom-4 -right-4 w-24 h-24 text-blue-500/30 rotate-12" />
-                    </div>
-
-                    <div className="mt-auto flex flex-col items-center gap-3 py-4 border-t border-slate-100">
-                        {isAutoSaving ? (
-                            <div className="flex items-center gap-2 text-blue-600 font-bold text-[10px] uppercase tracking-widest">
-                                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
-                                    <RotateCcw size={12} />
-                                </motion.div>
-                                Đang đồng bộ...
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-2 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
-                                <Save size={12} /> Đồng bộ lúc {lastSaved || '--:--'}
-                            </div>
-                        )}
-                    </div>
-                </aside>
             </div>
         </div>
     );

@@ -20,9 +20,15 @@ public class ClassService : IClassService
     public async Task<IEnumerable<ClassDto>> GetAllAsync()
     {
         var classes = await _context.Classes
-            .Include(c => c.Students)
+            .Include(c => c.HomeroomTeacher)
             .ToListAsync();
-        return _mapper.Map<IEnumerable<ClassDto>>(classes);
+        
+        return classes.Select(c => new ClassDto(
+            c.Id, 
+            c.Name, 
+            c.HomeroomTeacherId, 
+            c.HomeroomTeacher?.FullName
+        ));
     }
 
     public async Task<ClassDto> CreateAsync(CreateClassDto dto)

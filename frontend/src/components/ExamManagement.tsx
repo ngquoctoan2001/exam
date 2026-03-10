@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Calendar, Clock, Users, ChevronRight, MoreVertical, Trash2 } from 'lucide-react';
+import { Plus, Calendar, Clock, Users, ChevronRight, MoreVertical, Trash2, Printer, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import api from '../services/api';
 
@@ -64,13 +64,32 @@ const ExamCard = ({ exam, onNavigate }: any) => (
             </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-6 flex gap-2">
             <button
                 onClick={() => onNavigate(exam.id)}
-                className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
             >
-                Xem chi tiết
-                <ChevronRight size={16} />
+                Chi tiết
+            </button>
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = `/admin/grading/list/${exam.id}`;
+                }}
+                className="flex-1 py-2.5 rounded-xl border border-indigo-100 bg-indigo-50 text-indigo-600 font-semibold text-sm hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center gap-2"
+            >
+                <CheckCircle2 size={16} />
+                Chấm bài
+            </button>
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(`/admin/exams/${exam.id}/print`, '_blank');
+                }}
+                className="p-2.5 rounded-xl border border-blue-100 bg-blue-50 text-blue-600 font-semibold text-sm hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center gap-2"
+                title="In đề thi A4"
+            >
+                <Printer size={16} />
             </button>
         </div>
     </motion.div>

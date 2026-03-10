@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, BookOpen, Tag, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Search, Filter, BookOpen, Tag, Pencil, Trash2, Upload, FileSpreadsheet, FileText as FileIcon, AlertCircle, Info } from 'lucide-react';
 import api from '../services/api';
 
 const QuestionBank: React.FC = () => {
@@ -149,13 +149,32 @@ const QuestionBank: React.FC = () => {
                     <h2 className="text-2xl font-bold text-slate-900">Ngân hàng câu hỏi</h2>
                     <p className="text-slate-500 mt-1">Quản lý và tổ chức kho câu hỏi cho các kỳ thi.</p>
                 </div>
-                <button
-                    onClick={() => handleOpenModal()}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-all shadow-lg shadow-blue-100 self-start sm:self-auto"
-                >
-                    <Plus size={20} />
-                    Tạo câu hỏi mới
-                </button>
+                <div className="flex items-center gap-3">
+                    <div className="relative group">
+                        <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition-all">
+                            <Upload size={18} />
+                            <span>Import</span>
+                        </button>
+                        <div className="absolute right-0 mt-2 w-48 bg-white border border-white rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 p-2 border-slate-100">
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-blue-50 text-slate-600 hover:text-blue-600 rounded-xl transition-all text-sm font-bold">
+                                <FileSpreadsheet size={16} /> Excel (.xlsx)
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-blue-50 text-slate-600 hover:text-blue-600 rounded-xl transition-all text-sm font-bold">
+                                <FileIcon size={16} /> Word (.docx)
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-blue-50 text-slate-600 hover:text-blue-600 rounded-xl transition-all text-sm font-bold">
+                                <AlertCircle size={16} /> PDF Scan
+                            </button>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => handleOpenModal()}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-all shadow-lg shadow-blue-100 self-start sm:self-auto"
+                    >
+                        <Plus size={20} />
+                        Tạo câu hỏi mới
+                    </button>
+                </div>
             </div>
 
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
@@ -312,8 +331,8 @@ const QuestionBank: React.FC = () => {
                                     />
                                 </div>
 
-                                {/* Options for MCQ */}
-                                {(formData.questionTypeId === '1' || formData.questionTypeId === '2' || formData.questionTypeId === 'MCQ') && (
+                                {/* MCQ / Options */}
+                                {(formData.questionTypeId === '1' || formData.questionTypeId === 'MCQ') && (
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <label className="text-sm font-semibold text-slate-700">Các phương án trả lời</label>
@@ -360,6 +379,52 @@ const QuestionBank: React.FC = () => {
                                                 </div>
                                             ))}
                                         </div>
+                                    </div>
+                                )}
+
+                                {/* True/False Type */}
+                                {formData.questionTypeId === '3' && (
+                                    <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-4">
+                                        <label className="text-sm font-semibold text-slate-700">Thiết lập đáp án Đúng/Sai</label>
+                                        <div className="flex gap-4">
+                                            <button
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, options: [{ content: 'Đúng', isCorrect: true }, { content: 'Sai', isCorrect: false }] })}
+                                                className={`flex-1 py-4 rounded-2xl font-bold border-2 transition-all ${formData.options.find((o: any) => o.content === 'Đúng')?.isCorrect ? 'bg-emerald-50 border-emerald-500 text-emerald-600' : 'bg-white border-slate-100 text-slate-400'}`}
+                                            >
+                                                ĐÚNG LÀ ĐÁP ÁN ĐÚNG
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, options: [{ content: 'Đúng', isCorrect: false }, { content: 'Sai', isCorrect: true }] })}
+                                                className={`flex-1 py-4 rounded-2xl font-bold border-2 transition-all ${formData.options.find((o: any) => o.content === 'Sai')?.isCorrect ? 'bg-rose-50 border-rose-500 text-rose-600' : 'bg-white border-slate-100 text-slate-400'}`}
+                                            >
+                                                SAI LÀ ĐÁP ÁN ĐÚNG
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Short Answer Type */}
+                                {formData.questionTypeId === '4' && (
+                                    <div className="space-y-4">
+                                        <label className="text-sm font-semibold text-slate-700">Đáp án chính xác (Hệ thống sẽ so khớp chuỗi)</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            className="w-full px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold placeholder-slate-600 outline-none"
+                                            placeholder="Nhập từ văn bản đáp án..."
+                                            value={formData.options[0]?.content || ''}
+                                            onChange={(e) => setFormData({ ...formData, options: [{ content: e.target.value, isCorrect: true }] })}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Essay and Drawing - No options needed in form, just content */}
+                                {(formData.questionTypeId === '2' || formData.questionTypeId === '5') && (
+                                    <div className="p-6 bg-blue-50 rounded-3xl border border-blue-100 text-blue-600 text-sm font-medium flex items-center gap-3">
+                                        <Info size={20} />
+                                        Loại câu hỏi này không yêu cầu thiết lập phương án trả lời cố định.
                                     </div>
                                 )}
 

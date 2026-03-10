@@ -60,7 +60,7 @@ public class ReportService : IReportService
             .Where(e => e.StartTime > DateTime.UtcNow && e.Status == "Published")
             .OrderBy(e => e.StartTime)
             .Take(5)
-            .Select(e => new UpcomingExamDto(e.Id, e.Title, e.Subject.Name, e.StartTime))
+            .Select(e => new UpcomingExamDto(e.Id, e.Title, e.Subject != null ? e.Subject.Name : "N/A", e.StartTime))
             .ToListAsync();
 
         return new DashboardStatsDto(
